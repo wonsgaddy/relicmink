@@ -1,6 +1,8 @@
 @tool
 extends Node2D
 
+const AnimatedDoor = preload("res://scripts/animated_passage_door.gd")
+const DOOR_ATLAS = preload("res://sprites/door.png")
 const TerrainRules = preload("res://scripts/terrain_rules.gd")
 const Layout = preload("res://scripts/map_layout.gd")
 const CATALOG = preload("res://maps/prefabs.tres")
@@ -11,6 +13,7 @@ const CAMERA_RESPONSE := 12.0
 @export var main_path_rooms := Vector2i(6, 8)
 @export var branch_count := Vector2i(1, 3)
 @export var branch_depth := Vector2i(1, 2)
+@export_range(0.01, 1.0, 0.01) var door_seconds_per_frame := 0.08
 @export_tool_button("Generate Map Preview") var generate_preview_button := _generate_preview
 @export_tool_button("Clear Map Preview") var clear_preview_button := _clear_preview
 
@@ -53,6 +56,7 @@ func _ready() -> void:
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
 	add_child(player)
+	_place_doors(layout, self, terrain, player)
 	add_child(camera)
 	_update_camera(0.0, true)
 	status.text = "Find the goal  /  Seed %d" % active_seed
@@ -83,6 +87,20 @@ func _draw_layout(generated, ground: TileMapLayer, decor: TileMapLayer) -> Rect2
 	return map_bounds
 
 
+func _place_doors(generated, parent: Node2D, ground: TileMapLayer, tracked_player: Node2D = null) -> void:
+	for placed in generated.placements:
+		for index in placed.joined:
+			var door: Dictionary = placed.prefab.exits[index]
+			if door.direction != Vector2i.RIGHT and door.direction != Vector2i.DOWN:
+				continue
+			var opening: Vector2i = placed.openings[index]
+			var anchor: Vector2i = placed.origin + door.anchor + door.tangent * opening.x
+			var animated := AnimatedDoor.new()
+			animated.position = ground.map_to_local(anchor) - Vector2(ground.tile_set.tile_size) / 2.0
+			animated.configure(door.tangent, opening.y, DOOR_ATLAS, door_seconds_per_frame, tracked_player, tracked_player == null)
+			parent.add_child(animated)
+
+
 func _resolve_seed() -> int:
 	return generation_seed if generation_seed != 0 else randi()
 
@@ -102,6 +120,7 @@ func _generate_preview() -> void:
 	var ground := _make_preview_layer(preview, "TerrainPreview")
 	var decor := _make_preview_layer(preview, "DecorationPreview")
 	_draw_layout(preview_layout, ground, decor)
+	_place_doors(preview_layout, preview, ground)
 	print("Map preview seed: %d" % seed_value)
 
 
