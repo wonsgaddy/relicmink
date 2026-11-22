@@ -1,10 +1,5 @@
 {
   "grass": { "terrain": "grass" },
-  "grass.floor": { "terrain": "grass" },
-  "grass.fill": { "terrain": "grass" },
-  "grass.wall_left": { "terrain": "grass" },
-  "grass.wall_right": { "terrain": "grass" },
-  "grass.ledge": { "terrain": "grass" },
   "grass_deco.tuft": [1, 0, 0],
   "grass_deco.reeds": [1, 1, 0]
 }
