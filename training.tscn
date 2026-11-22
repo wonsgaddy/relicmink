@@ -467,10 +467,9 @@ animation = &"Idle"
 
 [node name="Dust" type="AnimatedSprite2D" parent="Player" unique_id=1247657716]
 visible = false
+top_level = true
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_mxlqr")
-frame = 2
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=615861845]
 position = Vector2(0, 2)
@@ -490,7 +489,7 @@ offset_left = 16.0
 offset_top = 34.0
 theme_override_colors/font_color = Color(0.72, 0.8, 0.89, 1)
 theme_override_font_sizes/font_size = 13
-text = "A / D or arrows: Move   Space: Jump / Double jump   X: Dash   H: Hit"
+text = "A / D or arrows: Move   Space: Jump / Double jump   Shift: Dash   H: Hit"
 
 [node name="SpawnMarker" type="Label" parent="HUD" unique_id=1278159506]
 offset_left = 24.0
