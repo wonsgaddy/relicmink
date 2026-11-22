@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 const RUN_SPEED := 64.0
-const JUMP_SPEED := 200.0
+const JUMP_SPEED := 245.0
+const SHORT_JUMP_SPEED := 125.0
 const DOUBLE_JUMP_SPEED := 285.0
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
@@ -23,6 +24,7 @@ var coyote_time_left := 0.0
 var jump_buffer_left := 0.0
 var air_dash_used := false
 var double_jump_used := false
+var variable_jump_active := false
 var hurt := false
 var move_input := 0.0
 
@@ -52,6 +54,8 @@ func _physics_process(delta: float) -> void:
 		take_hit(-facing)
 
 	if dash_time > 0.0:
+		if jump_buffer_left > 0.0:
+			_try_jump()
 		dash_time = maxf(0.0, dash_time - delta)
 	elif hurt:
 		velocity.x = move_toward(velocity.x, 0.0, 420.0 * delta)
@@ -68,7 +72,16 @@ func _physics_process(delta: float) -> void:
 		elif jump_buffer_left > 0.0:
 			_try_jump()
 
+	if variable_jump_active:
+		if velocity.y >= 0.0:
+			variable_jump_active = false
+		elif not Input.is_action_pressed(&"jump"):
+			velocity.y = maxf(velocity.y, -SHORT_JUMP_SPEED)
+			variable_jump_active = false
+
 	move_and_slide()
+	if was_on_floor and not is_on_floor() and dash_time > 0.0:
+		air_dash_used = true
 	if position.y > 320.0 or position.x < -40.0 or position.x > 520.0:
 		_respawn()
 		return
@@ -94,6 +107,7 @@ func take_hit(direction: float) -> void:
 	if hurt:
 		return
 	hurt = true
+	variable_jump_active = false
 	coyote_time_left = 0.0
 	dash_time = 0.0
 	facing = -direction
@@ -108,21 +122,29 @@ func _apply_gravity(delta: float) -> void:
 
 
 func _start_dash() -> void:
-	air_dash_used = true
+	variable_jump_active = false
+	air_dash_used = not is_on_floor()
 	dash_time = DASH_DURATION
 	velocity = Vector2(facing * DASH_SPEED, 0.0)
 	sprite.play(&"Dash_Init")
 
 
 func _try_jump() -> void:
-	if coyote_time_left > 0.0:
+	var ground_jump := coyote_time_left > 0.0
+	if not ground_jump and double_jump_used:
+		return
+
+	if dash_time > 0.0:
+		dash_time = 0.0
+		velocity.x = move_input * RUN_SPEED
+	jump_buffer_left = 0.0
+	variable_jump_active = ground_jump
+	if ground_jump:
 		coyote_time_left = 0.0
-		jump_buffer_left = 0.0
 		velocity.y = -JUMP_SPEED
 		sprite.play(&"Jump_Init")
 		_play_dust(velocity.x)
-	elif not double_jump_used:
-		jump_buffer_left = 0.0
+	else:
 		double_jump_used = true
 		velocity.y = -DOUBLE_JUMP_SPEED
 		sprite.play(&"DoubleJump_Init")
@@ -173,6 +195,7 @@ func _respawn() -> void:
 	coyote_time_left = 0.0
 	jump_buffer_left = 0.0
 	hurt = false
+	variable_jump_active = false
 	double_jump_used = false
 	air_dash_used = false
 	facing = 1.0
