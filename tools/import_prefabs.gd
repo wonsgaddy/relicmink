@@ -131,7 +131,7 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 	var kind: Variant = data.get("kind")
 	var role: Variant = data.get("role", "normal")
 	var size := _pair(data.get("size"))
-	if not id is String or id.is_empty() or kind not in ["room", "corridor", "shaft"] or size.x <= 0 or size.y <= 0:
+	if not id is String or id.is_empty() or kind not in ["room", "corridor"] or size.x <= 0 or size.y <= 0:
 		problem = "Set a unique id, a valid kind and a positive size [width, height]."
 		return {}
 	if role not in ["start", "normal", "goal"] or (kind != "room" and role != "normal"):
@@ -147,19 +147,17 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 	if not problem.is_empty():
 		return {}
 	var raw_exits: Variant = data.get("exits")
-	if not raw_exits is Array or raw_exits.is_empty() or (kind != "room" and raw_exits.size() != 2):
-		problem = "Rooms need at least one exit. Connectors need exactly two."
+	if not raw_exits is Array or raw_exits.is_empty() or (kind == "corridor" and raw_exits.size() < 2):
+		problem = "Rooms need at least one exit. Corridors need at least two."
 		return {}
 
 	var exits: Array[Dictionary] = []
+	var door_cells: Dictionary[Vector2i, bool] = {}
 	for door in raw_exits:
 		if not door is Dictionary or not SIDES.has(door.get("side")) or not _is_integer(door.get("offset")) or not _is_integer(door.get("span")):
 			problem = "Each exit needs a side, integer offset and integer span."
 			return {}
 		var direction: Vector2i = SIDES[door.side]
-		if (kind == "corridor" and direction.x == 0) or (kind == "shaft" and direction.y == 0):
-			problem = "Corridors use left and right exits. Shafts use up and down exits."
-			return {}
 		var offset := int(door.offset)
 		var span := int(door.span)
 		var wall_length := size.y if direction.x != 0 else size.x
@@ -172,17 +170,45 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 		elif direction == Vector2i.DOWN:
 			anchor.y = size.y - 1
 		var raw_cap: Variant = door.get("cap")
-		if not raw_cap is Dictionary or not raw_cap.get("terrain") is Array or raw_cap.terrain.is_empty():
-			problem = "Each exit needs cap.terrain tiles."
+		var align: Variant = door.get("align", "center")
+		if align not in ["start", "center", "end"]:
+			problem = "Exit align must be start, center or end."
 			return {}
-		var cap_terrain := _compile_layer(raw_cap.terrain, size, true)
+		var tangent := Vector2i.DOWN if direction.x != 0 else Vector2i.RIGHT
+		if not raw_cap is Dictionary or not (raw_cap.get("terrain") is Array or raw_cap.get("terrain") is String):
+			problem = "Set cap.terrain to a tile name or a tile list."
+			return {}
+		var cap_entries: Array = []
+		if raw_cap.terrain is String:
+			for index in span:
+				var cell := anchor + tangent * index
+				cap_entries.append([cell.x, cell.y, raw_cap.terrain])
+		else:
+			cap_entries = raw_cap.terrain
+		var cap_terrain := _compile_layer(cap_entries, size, true)
 		var cap_decoration := _compile_layer(raw_cap.get("decoration", []), size, false)
 		if not problem.is_empty():
 			return {}
-		exits.append({"direction": direction, "anchor": anchor, "span": span, "terrain": cap_terrain, "decoration": cap_decoration})
-	if kind != "room" and exits[0].direction != -exits[1].direction:
-		problem = "Connector exits must face opposite directions."
-		return {}
+		var covered: Dictionary[Vector2i, bool] = {}
+		for index in range(0, cap_terrain.size(), 5):
+			covered[Vector2i(cap_terrain[index], cap_terrain[index + 1])] = true
+		for index in span:
+			var cell := anchor + tangent * index
+			if not covered.has(cell):
+				problem = "The %s exit cap is missing tile %s." % [door.side, cell]
+				return {}
+			if door_cells.has(cell):
+				problem = "Two exit openings share cell %s." % cell
+				return {}
+			door_cells[cell] = true
+		if covered.size() != span:
+			problem = "Cap terrain must stay within the %s exit opening." % door.side
+			return {}
+		exits.append({
+			"direction": direction, "anchor": anchor, "tangent": tangent, "span": span,
+			"align": align, "terrain": cap_terrain, "decoration": cap_decoration,
+		})
+
 	return {"id": id, "kind": kind, "role": role, "size": size, "spawn": spawn, "terrain": terrain, "decoration": decoration, "exits": exits}
 
 

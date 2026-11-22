@@ -1,0 +1,73 @@
+{
+  "id": "crossing",
+  "kind": "corridor",
+  "size": [13, 10],
+  "terrain": [
+    [0, 0, "grass"],
+    [1, 0, "grass"],
+    [2, 0, "grass"],
+    [3, 0, "grass"],
+    [4, 0, "grass"],
+    [8, 0, "grass"],
+    [9, 0, "grass"],
+    [10, 0, "grass"],
+    [11, 0, "grass"],
+    [12, 0, "grass"],
+    [12, 1, "grass"],
+    [5, 2, "grass"],
+    [12, 2, "grass"],
+    [12, 3, "grass"],
+    [7, 4, "grass"],
+    [12, 4, "grass"],
+    [12, 5, "grass"],
+    [5, 6, "grass"],
+    [0, 9, "grass"],
+    [1, 9, "grass"],
+    [2, 9, "grass"],
+    [3, 9, "grass"],
+    [4, 9, "grass"],
+    [8, 9, "grass"],
+    [9, 9, "grass"],
+    [10, 9, "grass"],
+    [11, 9, "grass"],
+    [12, 9, "grass"]
+  ],
+  "decoration": [
+    [3, 8, "grass_deco.tuft"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 1,
+      "span": 8,
+      "align": "end",
+      "cap": {
+        "terrain": "grass"
+      }
+    },
+    {
+      "side": "right",
+      "offset": 6,
+      "span": 3,
+      "cap": {
+        "terrain": "grass"
+      }
+    },
+    {
+      "side": "up",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": "grass"
+      }
+    },
+    {
+      "side": "down",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": "grass"
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ const CONNECTOR_CHANCE := 0.35
 
 var _rng := RandomNumberGenerator.new()
 var _rooms: Dictionary = {"start": [], "normal": [], "goal": []}
-var _connectors: Dictionary = {"corridor": [], "shaft": []}
+var _corridors: Array[Dictionary] = []
 var placements: Array[Dictionary] = []
 var goal_index := -1
 
@@ -17,12 +17,12 @@ func generate(prefabs: Array[Dictionary], seed_value: int, path_range: Vector2i,
 		return false
 	_rng.seed = seed_value
 	_rooms = {"start": [], "normal": [], "goal": []}
-	_connectors = {"corridor": [], "shaft": []}
+	_corridors.clear()
 	for prefab in prefabs:
 		if prefab.kind == "room":
 			_rooms[prefab.role].append(prefab)
 		else:
-			_connectors[prefab.kind].append(prefab)
+			_corridors.append(prefab)
 	if _rooms.start.is_empty() or _rooms.normal.is_empty() or _rooms.goal.is_empty():
 		return false
 
@@ -52,9 +52,10 @@ func _make_tree(path_size: int, branch_sizes: Array[int]) -> bool:
 		tail = _extend([tail], role)
 		if tail == -1:
 			return false
-		if role == "normal":
-			branch_roots.append(tail)
 	goal_index = tail
+	for index in range(1, placements.size()):
+		if index != goal_index:
+			branch_roots.append(index)
 
 	for depth in branch_sizes:
 		var branch_tail := _extend(branch_roots, "normal")
@@ -84,7 +85,7 @@ func _extend(from_rooms: Array[int], role: String) -> int:
 		if not direct.is_empty():
 			var room := placements.size()
 			placements.append(direct.placement)
-			_join(from, Vector2i(room, direct.exit))
+			_join(from, Vector2i(room, direct.exit), direct.opening)
 			return room
 		if not use_connector:
 			var connected := _via_connector(from, _rooms[role])
@@ -94,20 +95,25 @@ func _extend(from_rooms: Array[int], role: String) -> int:
 
 
 func _via_connector(from: Vector2i, rooms: Array) -> int:
-	var direction: Vector2i = placements[from.x].prefab.exits[from.y].direction
-	var kind := "corridor" if direction.x != 0 else "shaft"
-	var options := _fits(from, _connectors[kind])
+	var options := _fits(from, _corridors)
 	while not options.is_empty():
 		var connector: Dictionary = options.pop_at(_rng.randi_range(0, options.size() - 1))
 		var connector_index := placements.size()
 		placements.append(connector.placement)
-		var far_end := Vector2i(connector_index, 1 - int(connector.exit))
-		var room := _choose_fit(far_end, rooms)
-		if not room.is_empty():
+		var exits: Array[int] = []
+		for index in connector.placement.prefab.exits.size():
+			if index != connector.exit:
+				exits.append(index)
+		while not exits.is_empty():
+			var index: int = exits.pop_at(_rng.randi_range(0, exits.size() - 1))
+			var far_end := Vector2i(connector_index, index)
+			var room := _choose_fit(far_end, rooms)
+			if room.is_empty():
+				continue
 			var room_index := placements.size()
 			placements.append(room.placement)
-			_join(from, Vector2i(connector_index, connector.exit))
-			_join(far_end, Vector2i(room_index, room.exit))
+			_join(from, Vector2i(connector_index, connector.exit), connector.opening)
+			_join(far_end, Vector2i(room_index, room.exit), room.opening)
 			return room_index
 		placements.pop_back()
 	return -1
@@ -128,9 +134,12 @@ func _fits(from: Vector2i, candidates: Array) -> Array[Dictionary]:
 	for prefab in candidates:
 		for index in prefab.exits.size():
 			var entrance: Dictionary = prefab.exits[index]
-			if entrance.direction != -exit.direction or entrance.span != exit.span:
+			if entrance.direction != -exit.direction:
 				continue
-			var origin: Vector2i = entrance_cell - entrance.anchor
+			var span := mini(exit.span, entrance.span)
+			var start := _opening_start(exit, span)
+			var end := _opening_start(entrance, span)
+			var origin: Vector2i = entrance_cell - entrance.anchor + exit.tangent * (start - end)
 			var bounds := Rect2i(origin, prefab.size)
 			var overlaps := false
 			for placed in placements:
@@ -138,14 +147,31 @@ func _fits(from: Vector2i, candidates: Array) -> Array[Dictionary]:
 					overlaps = true
 					break
 			if not overlaps:
-				fits.append({"placement": _placement(prefab, origin), "exit": index})
+				fits.append({
+					"placement": _placement(prefab, origin),
+					"exit": index,
+					"opening": Vector3i(start, end, span),
+				})
 	return fits
 
 
+func _opening_start(door: Dictionary, span: int) -> int:
+	var excess: int = door.span - span
+	match door.align:
+		"start":
+			return 0
+		"end":
+			return excess
+		_:
+			return floori(excess / 2.0)
+
+
 func _placement(prefab: Dictionary, origin: Vector2i) -> Dictionary:
-	return {"prefab": prefab, "origin": origin, "joined": {}}
+	return {"prefab": prefab, "origin": origin, "joined": {}, "openings": {}}
 
 
-func _join(a: Vector2i, b: Vector2i) -> void:
+func _join(a: Vector2i, b: Vector2i, opening: Vector3i) -> void:
 	placements[a.x].joined[a.y] = b
 	placements[b.x].joined[b.y] = a
+	placements[a.x].openings[a.y] = Vector2i(opening.x, opening.z)
+	placements[b.x].openings[b.y] = Vector2i(opening.y, opening.z)

@@ -1,6 +1,6 @@
 {
   "id": "shaft_short",
-  "kind": "shaft",
+  "kind": "corridor",
   "size": [7, 4],
   "terrain": [
     [0, 0, "grass"],

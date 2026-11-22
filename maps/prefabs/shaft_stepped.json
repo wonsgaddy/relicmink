@@ -1,6 +1,6 @@
 {
   "id": "shaft_stepped",
-  "kind": "shaft",
+  "kind": "corridor",
   "size": [7, 6],
   "terrain": [
     [0, 0, "grass"],

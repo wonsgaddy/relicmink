@@ -37,10 +37,15 @@ func _ready() -> void:
 		_collect_tiles(terrain_cells, origin, prefab.terrain)
 		_place_decoration(origin, prefab.decoration)
 		for index in prefab.exits.size():
+			var door: Dictionary = prefab.exits[index]
 			if not placed.joined.has(index):
-				var cap: Dictionary = prefab.exits[index]
-				_collect_tiles(terrain_cells, origin, cap.terrain)
-				_place_decoration(origin, cap.decoration)
+				_collect_tiles(terrain_cells, origin, door.terrain)
+				_place_decoration(origin, door.decoration)
+			else:
+				var opening: Vector2i = placed.openings[index]
+				if opening.y < door.span:
+					var open_cells := Rect2i(door.anchor + door.tangent * opening.x, Vector2i.ONE + door.tangent * (opening.y - 1))
+					_collect_tiles(terrain_cells, origin, door.terrain, open_cells)
 
 	_apply_terrain(terrain_cells)
 
@@ -66,10 +71,12 @@ func _physics_process(_delta: float) -> void:
 		status.text = "Goal reached  /  Seed %d" % active_seed
 
 
-func _collect_tiles(cells: Dictionary[Vector2i, Vector3i], origin: Vector2i, tiles: PackedInt32Array) -> void:
+func _collect_tiles(cells: Dictionary[Vector2i, Vector3i], origin: Vector2i, tiles: PackedInt32Array, open_cells := Rect2i()) -> void:
 	for index in range(0, tiles.size(), 5):
-		var cell := origin + Vector2i(tiles[index], tiles[index + 1])
-		cells[cell] = Vector3i(tiles[index + 2], tiles[index + 3], tiles[index + 4])
+		var cell := Vector2i(tiles[index], tiles[index + 1])
+		if open_cells.has_point(cell):
+			continue
+		cells[origin + cell] = Vector3i(tiles[index + 2], tiles[index + 3], tiles[index + 4])
 
 
 func _place_decoration(origin: Vector2i, tiles: PackedInt32Array) -> void:
