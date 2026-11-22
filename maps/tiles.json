@@ -1,0 +1,9 @@
+{
+  "grass.floor": [0, 10, 0],
+  "grass.fill": [0, 9, 2],
+  "grass.wall_left": [0, 8, 1],
+  "grass.wall_right": [0, 11, 2],
+  "grass.ledge": [0, 2, 3],
+  "grass_deco.tuft": [1, 0, 0],
+  "grass_deco.reeds": [1, 1, 0]
+}

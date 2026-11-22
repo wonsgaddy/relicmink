@@ -1,0 +1,89 @@
+{
+  "id": "grove",
+  "kind": "room",
+  "size": [14, 7],
+  "terrain": [
+    [0, 0, "grass.fill"],
+    [1, 0, "grass.fill"],
+    [2, 0, "grass.fill"],
+    [3, 0, "grass.fill"],
+    [4, 0, "grass.fill"],
+    [5, 0, "grass.fill"],
+    [9, 0, "grass.fill"],
+    [10, 0, "grass.fill"],
+    [11, 0, "grass.fill"],
+    [12, 0, "grass.fill"],
+    [13, 0, "grass.fill"],
+    [0, 1, "grass.wall_left"],
+    [9, 1, "grass.ledge"],
+    [13, 1, "grass.wall_right"],
+    [0, 2, "grass.wall_left"],
+    [13, 2, "grass.wall_right"],
+    [5, 3, "grass.ledge"],
+    [0, 6, "grass.floor"],
+    [1, 6, "grass.floor"],
+    [2, 6, "grass.floor"],
+    [3, 6, "grass.floor"],
+    [4, 6, "grass.floor"],
+    [5, 6, "grass.floor"],
+    [9, 6, "grass.floor"],
+    [10, 6, "grass.floor"],
+    [11, 6, "grass.floor"],
+    [12, 6, "grass.floor"],
+    [13, 6, "grass.floor"]
+  ],
+  "decoration": [
+    [3, 5, "grass_deco.tuft"],
+    [10, 5, "grass_deco.reeds"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 3,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [0, 3, "grass.wall_left"],
+          [0, 4, "grass.wall_left"],
+          [0, 5, "grass.wall_left"]
+        ]
+      }
+    },
+    {
+      "side": "right",
+      "offset": 3,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [13, 3, "grass.wall_right"],
+          [13, 4, "grass.wall_right"],
+          [13, 5, "grass.wall_right"]
+        ]
+      }
+    },
+    {
+      "side": "up",
+      "offset": 6,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [6, 0, "grass.fill"],
+          [7, 0, "grass.fill"],
+          [8, 0, "grass.fill"]
+        ]
+      }
+    },
+    {
+      "side": "down",
+      "offset": 6,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [6, 6, "grass.floor"],
+          [7, 6, "grass.floor"],
+          [8, 6, "grass.floor"]
+        ]
+      }
+    }
+  ]
+}

@@ -14,6 +14,8 @@ const DASH_DURATION := 0.20
 const HIT_SPEED := 155.0
 const HIT_LIFT := 185.0
 
+@export var respawn_bounds := Rect2(-40, -10000, 560, 10320)
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dust: AnimatedSprite2D = $Dust
 @onready var spawn_position := position
@@ -82,7 +84,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if was_on_floor and not is_on_floor() and dash_time > 0.0:
 		air_dash_used = true
-	if position.y > 320.0 or position.x < -40.0 or position.x > 520.0:
+	if not respawn_bounds.has_point(position):
 		_respawn()
 		return
 

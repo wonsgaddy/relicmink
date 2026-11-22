@@ -1,0 +1,102 @@
+{
+  "id": "goal_hollow",
+  "kind": "room",
+  "size": [17, 9],
+  "role": "goal",
+  "spawn": [2, 7],
+  "terrain": [
+    [0, 0, "grass.fill"],
+    [1, 0, "grass.fill"],
+    [2, 0, "grass.fill"],
+    [3, 0, "grass.fill"],
+    [4, 0, "grass.fill"],
+    [5, 0, "grass.fill"],
+    [6, 0, "grass.fill"],
+    [10, 0, "grass.fill"],
+    [11, 0, "grass.fill"],
+    [12, 0, "grass.fill"],
+    [13, 0, "grass.fill"],
+    [14, 0, "grass.fill"],
+    [15, 0, "grass.fill"],
+    [16, 0, "grass.fill"],
+    [0, 1, "grass.wall_left"],
+    [6, 1, "grass.ledge"],
+    [16, 1, "grass.wall_right"],
+    [0, 2, "grass.wall_left"],
+    [16, 2, "grass.wall_right"],
+    [0, 3, "grass.wall_left"],
+    [10, 3, "grass.ledge"],
+    [16, 3, "grass.wall_right"],
+    [0, 4, "grass.wall_left"],
+    [16, 4, "grass.wall_right"],
+    [6, 5, "grass.ledge"],
+    [0, 8, "grass.floor"],
+    [1, 8, "grass.floor"],
+    [2, 8, "grass.floor"],
+    [3, 8, "grass.floor"],
+    [4, 8, "grass.floor"],
+    [5, 8, "grass.floor"],
+    [6, 8, "grass.floor"],
+    [10, 8, "grass.floor"],
+    [11, 8, "grass.floor"],
+    [12, 8, "grass.floor"],
+    [13, 8, "grass.floor"],
+    [14, 8, "grass.floor"],
+    [15, 8, "grass.floor"],
+    [16, 8, "grass.floor"]
+  ],
+  "decoration": [
+    [3, 7, "grass_deco.tuft"],
+    [13, 7, "grass_deco.reeds"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [0, 5, "grass.wall_left"],
+          [0, 6, "grass.wall_left"],
+          [0, 7, "grass.wall_left"]
+        ]
+      }
+    },
+    {
+      "side": "right",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [16, 5, "grass.wall_right"],
+          [16, 6, "grass.wall_right"],
+          [16, 7, "grass.wall_right"]
+        ]
+      }
+    },
+    {
+      "side": "up",
+      "offset": 7,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [7, 0, "grass.fill"],
+          [8, 0, "grass.fill"],
+          [9, 0, "grass.fill"]
+        ]
+      }
+    },
+    {
+      "side": "down",
+      "offset": 7,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [7, 8, "grass.floor"],
+          [8, 8, "grass.floor"],
+          [9, 8, "grass.floor"]
+        ]
+      }
+    }
+  ]
+}

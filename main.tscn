@@ -1,3 +1,24 @@
 [gd_scene format=3 uid="uid://w2xg2giaw5bk"]
 
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="TileSet" path="res://dream_tileset.tres" id="2_tileset"]
+
 [node name="Main" type="Node2D" unique_id=1389664321]
+script = ExtResource("1_main")
+
+[node name="Terrain" type="TileMapLayer" parent="."]
+texture_filter = 1
+tile_set = ExtResource("2_tileset")
+
+[node name="Decoration" type="TileMapLayer" parent="."]
+texture_filter = 1
+collision_enabled = false
+tile_set = ExtResource("2_tileset")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Status" type="Label" parent="HUD"]
+offset_left = 12.0
+offset_top = 8.0
+theme_override_font_sizes/font_size = 13
+text = "Generating map..."

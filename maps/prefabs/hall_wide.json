@@ -1,0 +1,52 @@
+{
+  "id": "hall_wide",
+  "kind": "corridor",
+  "size": [7, 6],
+  "terrain": [
+    [0, 0, "grass.fill"],
+    [1, 0, "grass.fill"],
+    [2, 0, "grass.fill"],
+    [3, 0, "grass.fill"],
+    [4, 0, "grass.fill"],
+    [5, 0, "grass.fill"],
+    [6, 0, "grass.fill"],
+    [0, 1, "grass.wall_left"],
+    [6, 1, "grass.wall_right"],
+    [0, 5, "grass.floor"],
+    [1, 5, "grass.floor"],
+    [2, 5, "grass.floor"],
+    [3, 5, "grass.floor"],
+    [4, 5, "grass.floor"],
+    [5, 5, "grass.floor"],
+    [6, 5, "grass.floor"]
+  ],
+  "decoration": [
+    [3, 4, "grass_deco.tuft"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 2,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [0, 2, "grass.wall_left"],
+          [0, 3, "grass.wall_left"],
+          [0, 4, "grass.wall_left"]
+        ]
+      }
+    },
+    {
+      "side": "right",
+      "offset": 2,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [6, 2, "grass.wall_right"],
+          [6, 3, "grass.wall_right"],
+          [6, 4, "grass.wall_right"]
+        ]
+      }
+    }
+  ]
+}

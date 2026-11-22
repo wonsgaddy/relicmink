@@ -1,0 +1,41 @@
+{
+  "id": "hall_short",
+  "kind": "corridor",
+  "size": [4, 5],
+  "terrain": [
+    [0, 0, "grass.fill"],
+    [1, 0, "grass.fill"],
+    [2, 0, "grass.fill"],
+    [3, 0, "grass.fill"],
+    [0, 4, "grass.floor"],
+    [1, 4, "grass.floor"],
+    [2, 4, "grass.floor"],
+    [3, 4, "grass.floor"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 1,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [0, 1, "grass.wall_left"],
+          [0, 2, "grass.wall_left"],
+          [0, 3, "grass.wall_left"]
+        ]
+      }
+    },
+    {
+      "side": "right",
+      "offset": 1,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [3, 1, "grass.wall_right"],
+          [3, 2, "grass.wall_right"],
+          [3, 3, "grass.wall_right"]
+        ]
+      }
+    }
+  ]
+}

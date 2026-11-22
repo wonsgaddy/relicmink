@@ -1,0 +1,94 @@
+{
+  "id": "goal_bower",
+  "kind": "room",
+  "size": [13, 8],
+  "role": "goal",
+  "spawn": [2, 6],
+  "terrain": [
+    [0, 0, "grass.fill"],
+    [1, 0, "grass.fill"],
+    [2, 0, "grass.fill"],
+    [3, 0, "grass.fill"],
+    [4, 0, "grass.fill"],
+    [8, 0, "grass.fill"],
+    [9, 0, "grass.fill"],
+    [10, 0, "grass.fill"],
+    [11, 0, "grass.fill"],
+    [12, 0, "grass.fill"],
+    [0, 1, "grass.wall_left"],
+    [12, 1, "grass.wall_right"],
+    [0, 2, "grass.wall_left"],
+    [8, 2, "grass.ledge"],
+    [12, 2, "grass.wall_right"],
+    [0, 3, "grass.wall_left"],
+    [12, 3, "grass.wall_right"],
+    [4, 4, "grass.ledge"],
+    [0, 7, "grass.floor"],
+    [1, 7, "grass.floor"],
+    [2, 7, "grass.floor"],
+    [3, 7, "grass.floor"],
+    [4, 7, "grass.floor"],
+    [8, 7, "grass.floor"],
+    [9, 7, "grass.floor"],
+    [10, 7, "grass.floor"],
+    [11, 7, "grass.floor"],
+    [12, 7, "grass.floor"]
+  ],
+  "decoration": [
+    [3, 6, "grass_deco.tuft"],
+    [9, 6, "grass_deco.reeds"]
+  ],
+  "exits": [
+    {
+      "side": "left",
+      "offset": 4,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [0, 4, "grass.wall_left"],
+          [0, 5, "grass.wall_left"],
+          [0, 6, "grass.wall_left"]
+        ],
+        "decoration": [
+          [1, 6, "grass_deco.tuft"]
+        ]
+      }
+    },
+    {
+      "side": "right",
+      "offset": 4,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [12, 4, "grass.wall_right"],
+          [12, 5, "grass.wall_right"],
+          [12, 6, "grass.wall_right"]
+        ]
+      }
+    },
+    {
+      "side": "up",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [5, 0, "grass.fill"],
+          [6, 0, "grass.fill"],
+          [7, 0, "grass.fill"]
+        ]
+      }
+    },
+    {
+      "side": "down",
+      "offset": 5,
+      "span": 3,
+      "cap": {
+        "terrain": [
+          [5, 7, "grass.floor"],
+          [6, 7, "grass.floor"],
+          [7, 7, "grass.floor"]
+        ]
+      }
+    }
+  ]
+}
