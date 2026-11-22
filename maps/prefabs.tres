@@ -33,6 +33,47 @@ prefabs = Array[Dictionary]([{
 "decoration": PackedInt32Array(),
 "exits": Array[Dictionary]([{
 "align": "center",
+"anchor": Vector2i(0, 5),
+"decoration": PackedInt32Array(),
+"direction": Vector2i(-1, 0),
+"span": 3,
+"tangent": Vector2i(0, 1),
+"terrain": PackedInt32Array(0, 5, -1, 0, 0, 0, 6, -1, 0, 0, 0, 7, -1, 0, 0)
+}, {
+"align": "center",
+"anchor": Vector2i(23, 5),
+"decoration": PackedInt32Array(),
+"direction": Vector2i(1, 0),
+"span": 3,
+"tangent": Vector2i(0, 1),
+"terrain": PackedInt32Array(23, 5, -1, 0, 0, 23, 6, -1, 0, 0, 23, 7, -1, 0, 0)
+}, {
+"align": "center",
+"anchor": Vector2i(10, 0),
+"decoration": PackedInt32Array(),
+"direction": Vector2i(0, -1),
+"span": 3,
+"tangent": Vector2i(1, 0),
+"terrain": PackedInt32Array(10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0)
+}, {
+"align": "center",
+"anchor": Vector2i(10, 13),
+"decoration": PackedInt32Array(),
+"direction": Vector2i(0, 1),
+"span": 3,
+"tangent": Vector2i(1, 0),
+"terrain": PackedInt32Array(10, 13, -1, 0, 0, 11, 13, -1, 0, 0, 12, 13, -1, 0, 0)
+}]),
+"id": "cross",
+"kind": "corridor",
+"role": "normal",
+"size": Vector2i(24, 14),
+"spawn": Vector2i(-1, -1),
+"terrain": PackedInt32Array(0, 4, -1, 0, 0, 1, 4, -1, 0, 0, 2, 4, -1, 0, 0, 3, 4, -1, 0, 0, 4, 4, -1, 0, 0, 4, 3, -1, 0, 0, 5, 3, -1, 0, 0, 5, 2, -1, 0, 0, 6, 2, -1, 0, 0, 7, 1, -1, 0, 0, 9, 0, -1, 0, 0, 8, 1, -1, 0, 0, 13, 0, -1, 0, 0, 13, 1, -1, 0, 0, 13, 2, -1, 0, 0, 13, 3, -1, 0, 0, 13, 4, -1, 0, 0, 13, 5, -1, 0, 0, 14, 5, -1, 0, 0, 14, 6, -1, 0, 0, 15, 6, -1, 0, 0, 16, 6, -1, 0, 0, 16, 5, -1, 0, 0, 17, 5, -1, 0, 0, 17, 4, -1, 0, 0, 17, 3, -1, 0, 0, 18, 3, -1, 0, 0, 19, 3, -1, 0, 0, 20, 3, -1, 0, 0, 21, 3, -1, 0, 0, 22, 4, -1, 0, 0, 23, 4, -1, 0, 0, 0, 8, -1, 0, 0, 1, 8, -1, 0, 0, 2, 8, -1, 0, 0, 3, 8, -1, 0, 0, 4, 8, -1, 0, 0, 5, 8, -1, 0, 0, 6, 8, -1, 0, 0, 7, 8, -1, 0, 0, 8, 9, -1, 0, 0, 9, 10, -1, 0, 0, 9, 11, -1, 0, 0, 9, 12, -1, 0, 0, 9, 13, -1, 0, 0, 13, 13, -1, 0, 0, 14, 13, -1, 0, 0, 15, 13, -1, 0, 0, 16, 13, -1, 0, 0, 17, 13, -1, 0, 0, 18, 12, -1, 0, 0, 19, 12, -1, 0, 0, 19, 11, -1, 0, 0, 20, 10, -1, 0, 0, 21, 10, -1, 0, 0, 22, 10, -1, 0, 0, 22, 9, -1, 0, 0, 23, 8, -1, 0, 0, 20, 11, -1, 0, 0, 18, 13, -1, 0, 0, 23, 9, -1, 0, 0, 8, 10, -1, 0, 0, 7, 9, -1, 0, 0, 6, 1, -1, 0, 0, 8, 0, -1, 0, 0, 10, 9, -1, 0, 0, 9, 8, -1, 0, 0, 8, 8, -1, 0, 0, 9, 9, -1, 0, 0, 10, 8, -1, 0, 0, 11, 8, -1, 0, 0, 11, 9, -1, 0, 0, 8, 4, -1, 0, 0, 8, 5, -1, 0, 0, 9, 5, -1, 0, 0, 9, 4, -1, 0, 0)
+}, {
+"decoration": PackedInt32Array(),
+"exits": Array[Dictionary]([{
+"align": "center",
 "anchor": Vector2i(5, 0),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(0, -1),
