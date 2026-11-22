@@ -5,65 +5,33 @@
 [resource]
 script = ExtResource("1_vb8pc")
 prefabs = Array[Dictionary]([{
-"decoration": PackedInt32Array(3, 8, 1, 0, 0),
+"decoration": PackedInt32Array(),
 "exits": Array[Dictionary]([{
-"align": "end",
-"anchor": Vector2i(0, 1),
+"align": "center",
+"anchor": Vector2i(0, 5),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(-1, 0),
 "span": 8,
 "tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 1, -1, 0, 0, 0, 2, -1, 0, 0, 0, 3, -1, 0, 0, 0, 4, -1, 0, 0, 0, 5, -1, 0, 0, 0, 6, -1, 0, 0, 0, 7, -1, 0, 0, 0, 8, -1, 0, 0)
+"terrain": PackedInt32Array(0, 5, -1, 0, 0, 0, 6, -1, 0, 0, 0, 7, -1, 0, 0, 0, 8, -1, 0, 0, 0, 9, -1, 0, 0, 0, 10, -1, 0, 0, 0, 11, -1, 0, 0, 0, 12, -1, 0, 0)
 }, {
 "align": "center",
-"anchor": Vector2i(12, 6),
+"anchor": Vector2i(27, 7),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(1, 0),
 "span": 3,
 "tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(12, 6, -1, 0, 0, 12, 7, -1, 0, 0, 12, 8, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(5, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 7, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(5, 9),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(5, 9, -1, 0, 0, 6, 9, -1, 0, 0, 7, 9, -1, 0, 0)
+"terrain": PackedInt32Array(27, 9, -1, 0, 0, 27, 8, -1, 0, 0, 27, 7, -1, 0, 0)
 }]),
-"id": "crossing",
+"id": "corridor",
 "kind": "corridor",
 "role": "normal",
-"size": Vector2i(13, 10),
+"size": Vector2i(28, 16),
 "spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 12, 1, -1, 0, 0, 5, 2, -1, 0, 0, 12, 2, -1, 0, 0, 12, 3, -1, 0, 0, 7, 4, -1, 0, 0, 12, 4, -1, 0, 0, 12, 5, -1, 0, 0, 5, 6, -1, 0, 0, 0, 9, -1, 0, 0, 1, 9, -1, 0, 0, 2, 9, -1, 0, 0, 3, 9, -1, 0, 0, 4, 9, -1, 0, 0, 8, 9, -1, 0, 0, 9, 9, -1, 0, 0, 10, 9, -1, 0, 0, 11, 9, -1, 0, 0, 12, 9, -1, 0, 0)
+"terrain": PackedInt32Array(6, 3, -1, 0, 0, 6, 4, -1, 0, 0, 5, 4, -1, 0, 0, 4, 4, -1, 0, 0, 4, 5, -1, 0, 0, 5, 6, -1, 0, 0, 5, 7, -1, 0, 0, 5, 8, -1, 0, 0, 6, 8, -1, 0, 0, 7, 8, -1, 0, 0, 8, 8, -1, 0, 0, 8, 7, -1, 0, 0, 9, 7, -1, 0, 0, 10, 7, -1, 0, 0, 10, 5, -1, 0, 0, 10, 6, -1, 0, 0, 9, 11, -1, 0, 0, 8, 11, -1, 0, 0, 7, 11, -1, 0, 0, 16, 6, -1, 0, 0, 17, 6, -1, 0, 0, 18, 6, -1, 0, 0, 19, 6, -1, 0, 0, 20, 6, -1, 0, 0, 21, 6, -1, 0, 0, 22, 6, -1, 0, 0, 23, 6, -1, 0, 0, 24, 6, -1, 0, 0, 11, 4, -1, 0, 0, 12, 4, -1, 0, 0, 12, 3, -1, 0, 0, 13, 3, -1, 0, 0, 14, 3, -1, 0, 0, 15, 2, -1, 0, 0, 16, 2, -1, 0, 0, 17, 2, -1, 0, 0, 18, 2, -1, 0, 0, 19, 2, -1, 0, 0, 20, 2, -1, 0, 0, 21, 2, -1, 0, 0, 22, 2, -1, 0, 0, 5, 11, -1, 0, 0, 4, 11, -1, 0, 0, 3, 11, -1, 0, 0, 2, 11, -1, 0, 0, 6, 11, -1, 0, 0, 1, 12, -1, 0, 0, 5, 2, -1, 0, 0, 4, 2, -1, 0, 0, 3, 2, -1, 0, 0, 2, 2, -1, 0, 0, 1, 2, -1, 0, 0, 23, 2, -1, 0, 0, 25, 3, -1, 0, 0, 24, 2, -1, 0, 0, 26, 4, -1, 0, 0, 26, 5, -1, 0, 0, 27, 6, -1, 0, 0, 25, 8, -1, 0, 0, 24, 7, -1, 0, 0, 26, 9, -1, 0, 0, 27, 10, -1, 0, 0, 0, 4, -1, 0, 0, 0, 3, -1, 0, 0, 0, 13, -1, 0, 0, 15, 7, -1, 0, 0, 10, 11, -1, 0, 0, 11, 11, -1, 0, 0, 12, 10, -1, 0, 0, 13, 9, -1, 0, 0, 14, 8, -1, 0, 0)
 }, {
-"decoration": PackedInt32Array(3, 6, 1, 0, 0, 9, 6, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 4),
-"decoration": PackedInt32Array(1, 6, 1, 0, 0),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 4, -1, 0, 0, 0, 5, -1, 0, 0, 0, 6, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(12, 4),
 "decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(12, 4, -1, 0, 0, 12, 5, -1, 0, 0, 12, 6, -1, 0, 0)
-}, {
+"exits": Array[Dictionary]([{
 "align": "center",
 "anchor": Vector2i(5, 0),
 "decoration": PackedInt32Array(),
@@ -73,21 +41,21 @@ prefabs = Array[Dictionary]([{
 "terrain": PackedInt32Array(5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 7, 0, -1, 0, 0)
 }, {
 "align": "center",
-"anchor": Vector2i(5, 7),
+"anchor": Vector2i(16, 13),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(0, 1),
 "span": 3,
 "tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(5, 7, -1, 0, 0, 6, 7, -1, 0, 0, 7, 7, -1, 0, 0)
+"terrain": PackedInt32Array(16, 13, -1, 0, 0, 17, 13, -1, 0, 0, 18, 13, -1, 0, 0)
 }]),
-"id": "goal_bower",
-"kind": "room",
-"role": "goal",
-"size": Vector2i(13, 8),
-"spawn": Vector2i(2, 6),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 0, 1, -1, 0, 0, 12, 1, -1, 0, 0, 0, 2, -1, 0, 0, 8, 2, -1, 0, 0, 12, 2, -1, 0, 0, 0, 3, -1, 0, 0, 12, 3, -1, 0, 0, 4, 4, -1, 0, 0, 0, 7, -1, 0, 0, 1, 7, -1, 0, 0, 2, 7, -1, 0, 0, 3, 7, -1, 0, 0, 4, 7, -1, 0, 0, 8, 7, -1, 0, 0, 9, 7, -1, 0, 0, 10, 7, -1, 0, 0, 11, 7, -1, 0, 0, 12, 7, -1, 0, 0)
+"id": "shaft",
+"kind": "corridor",
+"role": "normal",
+"size": Vector2i(24, 14),
+"spawn": Vector2i(-1, -1),
+"terrain": PackedInt32Array(4, 0, -1, 0, 0, 4, 1, -1, 0, 0, 4, 2, -1, 0, 0, 4, 3, -1, 0, 0, 4, 4, -1, 0, 0, 4, 5, -1, 0, 0, 5, 5, -1, 0, 0, 6, 5, -1, 0, 0, 5, 6, -1, 0, 0, 6, 6, -1, 0, 0, 4, 6, -1, 0, 0, 4, 7, -1, 0, 0, 4, 8, -1, 0, 0, 4, 9, -1, 0, 0, 5, 9, -1, 0, 0, 6, 9, -1, 0, 0, 7, 9, -1, 0, 0, 8, 9, -1, 0, 0, 10, 9, -1, 0, 0, 11, 9, -1, 0, 0, 9, 9, -1, 0, 0, 15, 13, -1, 0, 0, 15, 12, -1, 0, 0, 15, 11, -1, 0, 0, 14, 10, -1, 0, 0, 13, 10, -1, 0, 0, 13, 9, -1, 0, 0, 12, 9, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 9, 1, -1, 0, 0, 9, 2, -1, 0, 0, 10, 2, -1, 0, 0, 10, 3, -1, 0, 0, 11, 3, -1, 0, 0, 12, 3, -1, 0, 0, 12, 4, -1, 0, 0, 13, 4, -1, 0, 0, 14, 4, -1, 0, 0, 14, 5, -1, 0, 0, 15, 5, -1, 0, 0, 16, 5, -1, 0, 0, 17, 5, -1, 0, 0, 18, 5, -1, 0, 0, 19, 5, -1, 0, 0, 19, 6, -1, 0, 0, 19, 7, -1, 0, 0, 19, 8, -1, 0, 0, 19, 9, -1, 0, 0, 20, 9, -1, 0, 0, 20, 10, -1, 0, 0, 20, 11, -1, 0, 0, 20, 12, -1, 0, 0, 19, 12, -1, 0, 0, 19, 13, -1, 0, 0, 7, 6, -1, 0, 0)
 }, {
-"decoration": PackedInt32Array(3, 7, 1, 0, 0, 13, 7, 1, 1, 0),
+"decoration": PackedInt32Array(3, 3, 1, 1, 0, 6, 7, 1, 1, 0, 16, 12, 1, 1, 0, 17, 12, 1, 1, 0, 4, 12, 1, 1, 0, 5, 12, 1, 1, 0, 18, 12, 1, 0, 0, 15, 12, 1, 0, 0, 16, 7, 1, 0, 0, 11, 3, 1, 0, 0, 20, 3, 1, 0, 0),
 "exits": Array[Dictionary]([{
 "align": "center",
 "anchor": Vector2i(0, 5),
@@ -98,316 +66,35 @@ prefabs = Array[Dictionary]([{
 "terrain": PackedInt32Array(0, 5, -1, 0, 0, 0, 6, -1, 0, 0, 0, 7, -1, 0, 0)
 }, {
 "align": "center",
-"anchor": Vector2i(16, 5),
+"anchor": Vector2i(23, 5),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(1, 0),
 "span": 3,
 "tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(16, 5, -1, 0, 0, 16, 6, -1, 0, 0, 16, 7, -1, 0, 0)
+"terrain": PackedInt32Array(23, 5, -1, 0, 0, 23, 6, -1, 0, 0, 23, 7, -1, 0, 0)
 }, {
 "align": "center",
-"anchor": Vector2i(7, 0),
+"anchor": Vector2i(10, 0),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(0, -1),
 "span": 3,
 "tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(7, 0, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0)
+"terrain": PackedInt32Array(10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0)
 }, {
 "align": "center",
-"anchor": Vector2i(7, 8),
+"anchor": Vector2i(10, 13),
 "decoration": PackedInt32Array(),
 "direction": Vector2i(0, 1),
 "span": 3,
 "tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(7, 8, -1, 0, 0, 8, 8, -1, 0, 0, 9, 8, -1, 0, 0)
+"terrain": PackedInt32Array(10, 13, -1, 0, 0, 11, 13, -1, 0, 0, 12, 13, -1, 0, 0)
 }]),
-"id": "goal_hollow",
-"kind": "room",
-"role": "goal",
-"size": Vector2i(17, 9),
-"spawn": Vector2i(2, 7),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 13, 0, -1, 0, 0, 14, 0, -1, 0, 0, 15, 0, -1, 0, 0, 16, 0, -1, 0, 0, 0, 1, -1, 0, 0, 6, 1, -1, 0, 0, 16, 1, -1, 0, 0, 0, 2, -1, 0, 0, 16, 2, -1, 0, 0, 0, 3, -1, 0, 0, 10, 3, -1, 0, 0, 16, 3, -1, 0, 0, 0, 4, -1, 0, 0, 16, 4, -1, 0, 0, 6, 5, -1, 0, 0, 0, 8, -1, 0, 0, 1, 8, -1, 0, 0, 2, 8, -1, 0, 0, 3, 8, -1, 0, 0, 4, 8, -1, 0, 0, 5, 8, -1, 0, 0, 6, 8, -1, 0, 0, 10, 8, -1, 0, 0, 11, 8, -1, 0, 0, 12, 8, -1, 0, 0, 13, 8, -1, 0, 0, 14, 8, -1, 0, 0, 15, 8, -1, 0, 0, 16, 8, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 5, 1, 0, 0, 10, 5, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 3),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 3, -1, 0, 0, 0, 4, -1, 0, 0, 0, 5, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(13, 3),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(13, 3, -1, 0, 0, 13, 4, -1, 0, 0, 13, 5, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(6, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(6, 0, -1, 0, 0, 7, 0, -1, 0, 0, 8, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(6, 6),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(6, 6, -1, 0, 0, 7, 6, -1, 0, 0, 8, 6, -1, 0, 0)
-}]),
-"id": "grove",
+"id": "standard_0",
 "kind": "room",
 "role": "normal",
-"size": Vector2i(14, 7),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 13, 0, -1, 0, 0, 0, 1, -1, 0, 0, 9, 1, -1, 0, 0, 13, 1, -1, 0, 0, 0, 2, -1, 0, 0, 13, 2, -1, 0, 0, 5, 3, -1, 0, 0, 0, 6, -1, 0, 0, 1, 6, -1, 0, 0, 2, 6, -1, 0, 0, 3, 6, -1, 0, 0, 4, 6, -1, 0, 0, 5, 6, -1, 0, 0, 9, 6, -1, 0, 0, 10, 6, -1, 0, 0, 11, 6, -1, 0, 0, 12, 6, -1, 0, 0, 13, 6, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 1),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 1, -1, 0, 0, 0, 2, -1, 0, 0, 0, 3, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(3, 1),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(3, 1, -1, 0, 0, 3, 2, -1, 0, 0, 3, 3, -1, 0, 0)
-}]),
-"id": "hall_short",
-"kind": "corridor",
-"role": "normal",
-"size": Vector2i(4, 5),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 0, 4, -1, 0, 0, 1, 4, -1, 0, 0, 2, 4, -1, 0, 0, 3, 4, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 4, 1, 0, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 2),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 2, -1, 0, 0, 0, 3, -1, 0, 0, 0, 4, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(6, 2),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(6, 2, -1, 0, 0, 6, 3, -1, 0, 0, 6, 4, -1, 0, 0)
-}]),
-"id": "hall_wide",
-"kind": "corridor",
-"role": "normal",
-"size": Vector2i(7, 6),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 0, 1, -1, 0, 0, 6, 1, -1, 0, 0, 0, 5, -1, 0, 0, 1, 5, -1, 0, 0, 2, 5, -1, 0, 0, 3, 5, -1, 0, 0, 4, 5, -1, 0, 0, 5, 5, -1, 0, 0, 6, 5, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 7, 1, 0, 0, 14, 7, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 5),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 5, -1, 0, 0, 0, 6, -1, 0, 0, 0, 7, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(17, 5),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(17, 5, -1, 0, 0, 17, 6, -1, 0, 0, 17, 7, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(8, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(8, 8),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(8, 8, -1, 0, 0, 9, 8, -1, 0, 0, 10, 8, -1, 0, 0)
-}]),
-"id": "hollow",
-"kind": "room",
-"role": "normal",
-"size": Vector2i(18, 9),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 7, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 13, 0, -1, 0, 0, 14, 0, -1, 0, 0, 15, 0, -1, 0, 0, 16, 0, -1, 0, 0, 17, 0, -1, 0, 0, 0, 1, -1, 0, 0, 7, 1, -1, 0, 0, 17, 1, -1, 0, 0, 0, 2, -1, 0, 0, 17, 2, -1, 0, 0, 0, 3, -1, 0, 0, 11, 3, -1, 0, 0, 17, 3, -1, 0, 0, 0, 4, -1, 0, 0, 17, 4, -1, 0, 0, 7, 5, -1, 0, 0, 0, 8, -1, 0, 0, 1, 8, -1, 0, 0, 2, 8, -1, 0, 0, 3, 8, -1, 0, 0, 4, 8, -1, 0, 0, 5, 8, -1, 0, 0, 6, 8, -1, 0, 0, 7, 8, -1, 0, 0, 11, 8, -1, 0, 0, 12, 8, -1, 0, 0, 13, 8, -1, 0, 0, 14, 8, -1, 0, 0, 15, 8, -1, 0, 0, 16, 8, -1, 0, 0, 17, 8, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(2, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(2, 3),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(2, 3, -1, 0, 0, 3, 3, -1, 0, 0, 4, 3, -1, 0, 0)
-}]),
-"id": "shaft_short",
-"kind": "corridor",
-"role": "normal",
-"size": Vector2i(7, 4),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 0, 1, -1, 0, 0, 6, 1, -1, 0, 0, 0, 2, -1, 0, 0, 2, 2, -1, 0, 0, 6, 2, -1, 0, 0, 0, 3, -1, 0, 0, 1, 3, -1, 0, 0, 5, 3, -1, 0, 0, 6, 3, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(2, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(2, 5),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(2, 5, -1, 0, 0, 3, 5, -1, 0, 0, 4, 5, -1, 0, 0)
-}]),
-"id": "shaft_stepped",
-"kind": "corridor",
-"role": "normal",
-"size": Vector2i(7, 6),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 0, 1, -1, 0, 0, 6, 1, -1, 0, 0, 0, 2, -1, 0, 0, 4, 2, -1, 0, 0, 6, 2, -1, 0, 0, 0, 3, -1, 0, 0, 6, 3, -1, 0, 0, 0, 4, -1, 0, 0, 2, 4, -1, 0, 0, 6, 4, -1, 0, 0, 0, 5, -1, 0, 0, 1, 5, -1, 0, 0, 5, 5, -1, 0, 0, 6, 5, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 6, 1, 0, 0, 15, 6, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 4),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 4, -1, 0, 0, 0, 5, -1, 0, 0, 0, 6, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(18, 4),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(18, 4, -1, 0, 0, 18, 5, -1, 0, 0, 18, 6, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(8, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0)
-}]),
-"id": "start_clearing",
-"kind": "room",
-"role": "start",
-"size": Vector2i(19, 8),
-"spawn": Vector2i(2, 6),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 7, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 13, 0, -1, 0, 0, 14, 0, -1, 0, 0, 15, 0, -1, 0, 0, 16, 0, -1, 0, 0, 17, 0, -1, 0, 0, 18, 0, -1, 0, 0, 0, 1, -1, 0, 0, 18, 1, -1, 0, 0, 0, 2, -1, 0, 0, 11, 2, -1, 0, 0, 18, 2, -1, 0, 0, 0, 3, -1, 0, 0, 18, 3, -1, 0, 0, 7, 4, -1, 0, 0, 0, 7, -1, 0, 0, 1, 7, -1, 0, 0, 2, 7, -1, 0, 0, 3, 7, -1, 0, 0, 4, 7, -1, 0, 0, 5, 7, -1, 0, 0, 6, 7, -1, 0, 0, 7, 7, -1, 0, 0, 8, 7, -1, 0, 0, 9, 7, -1, 0, 0, 10, 7, -1, 0, 0, 11, 7, -1, 0, 0, 12, 7, -1, 0, 0, 13, 7, -1, 0, 0, 14, 7, -1, 0, 0, 15, 7, -1, 0, 0, 16, 7, -1, 0, 0, 17, 7, -1, 0, 0, 18, 7, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 5, 1, 0, 0, 11, 5, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 3),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 3, -1, 0, 0, 0, 4, -1, 0, 0, 0, 5, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(14, 3),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(14, 3, -1, 0, 0, 14, 4, -1, 0, 0, 14, 5, -1, 0, 0)
-}]),
-"id": "start_grove",
-"kind": "room",
-"role": "start",
-"size": Vector2i(15, 7),
-"spawn": Vector2i(2, 5),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 7, 0, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0, 11, 0, -1, 0, 0, 12, 0, -1, 0, 0, 13, 0, -1, 0, 0, 14, 0, -1, 0, 0, 0, 1, -1, 0, 0, 14, 1, -1, 0, 0, 0, 2, -1, 0, 0, 14, 2, -1, 0, 0, 0, 6, -1, 0, 0, 1, 6, -1, 0, 0, 2, 6, -1, 0, 0, 3, 6, -1, 0, 0, 4, 6, -1, 0, 0, 5, 6, -1, 0, 0, 6, 6, -1, 0, 0, 7, 6, -1, 0, 0, 8, 6, -1, 0, 0, 9, 6, -1, 0, 0, 10, 6, -1, 0, 0, 11, 6, -1, 0, 0, 12, 6, -1, 0, 0, 13, 6, -1, 0, 0, 14, 6, -1, 0, 0)
-}, {
-"decoration": PackedInt32Array(3, 6, 1, 0, 0, 7, 6, 1, 1, 0),
-"exits": Array[Dictionary]([{
-"align": "center",
-"anchor": Vector2i(0, 4),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(-1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(0, 4, -1, 0, 0, 0, 5, -1, 0, 0, 0, 6, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(10, 4),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(1, 0),
-"span": 3,
-"tangent": Vector2i(0, 1),
-"terrain": PackedInt32Array(10, 4, -1, 0, 0, 10, 5, -1, 0, 0, 10, 6, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(4, 0),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, -1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0)
-}, {
-"align": "center",
-"anchor": Vector2i(4, 7),
-"decoration": PackedInt32Array(),
-"direction": Vector2i(0, 1),
-"span": 3,
-"tangent": Vector2i(1, 0),
-"terrain": PackedInt32Array(4, 7, -1, 0, 0, 5, 7, -1, 0, 0, 6, 7, -1, 0, 0)
-}]),
-"id": "terrace",
-"kind": "room",
-"role": "normal",
-"size": Vector2i(11, 8),
-"spawn": Vector2i(-1, -1),
-"terrain": PackedInt32Array(0, 0, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 7, 0, -1, 0, 0, 8, 0, -1, 0, 0, 9, 0, -1, 0, 0, 10, 0, -1, 0, 0, 0, 1, -1, 0, 0, 10, 1, -1, 0, 0, 0, 2, -1, 0, 0, 7, 2, -1, 0, 0, 10, 2, -1, 0, 0, 0, 3, -1, 0, 0, 10, 3, -1, 0, 0, 3, 4, -1, 0, 0, 0, 7, -1, 0, 0, 1, 7, -1, 0, 0, 2, 7, -1, 0, 0, 3, 7, -1, 0, 0, 7, 7, -1, 0, 0, 8, 7, -1, 0, 0, 9, 7, -1, 0, 0, 10, 7, -1, 0, 0)
+"size": Vector2i(24, 14),
+"spawn": Vector2i(7, 7),
+"terrain": PackedInt32Array(0, 0, -1, 0, 0, 0, 1, -1, 0, 0, 0, 2, -1, 0, 0, 0, 3, -1, 0, 0, 0, 4, -1, 0, 0, 1, 0, -1, 0, 0, 2, 0, -1, 0, 0, 3, 0, -1, 0, 0, 4, 0, -1, 0, 0, 5, 0, -1, 0, 0, 6, 0, -1, 0, 0, 8, 1, -1, 0, 0, 7, 1, -1, 0, 0, 9, 1, -1, 0, 0, 13, 1, -1, 0, 0, 14, 1, -1, 0, 0, 15, 1, -1, 0, 0, 16, 1, -1, 0, 0, 17, 0, -1, 0, 0, 18, 0, -1, 0, 0, 19, 0, -1, 0, 0, 20, 0, -1, 0, 0, 21, 0, -1, 0, 0, 22, 0, -1, 0, 0, 23, 0, -1, 0, 0, 23, 1, -1, 0, 0, 23, 2, -1, 0, 0, 23, 3, -1, 0, 0, 23, 4, -1, 0, 0, 23, 8, -1, 0, 0, 22, 9, -1, 0, 0, 21, 11, -1, 0, 0, 21, 12, -1, 0, 0, 21, 10, -1, 0, 0, 20, 13, -1, 0, 0, 19, 13, -1, 0, 0, 18, 13, -1, 0, 0, 17, 13, -1, 0, 0, 16, 13, -1, 0, 0, 15, 13, -1, 0, 0, 13, 13, -1, 0, 0, 9, 13, -1, 0, 0, 8, 13, -1, 0, 0, 14, 13, -1, 0, 0, 7, 13, -1, 0, 0, 6, 13, -1, 0, 0, 5, 13, -1, 0, 0, 4, 13, -1, 0, 0, 3, 13, -1, 0, 0, 2, 13, -1, 0, 0, 1, 12, -1, 0, 0, 0, 11, -1, 0, 0, 0, 10, -1, 0, 0, 0, 9, -1, 0, 0, 0, 8, -1, 0, 0, 9, 0, -1, 0, 0, 13, 0, -1, 0, 0, 5, 8, -1, 0, 0, 5, 9, -1, 0, 0, 6, 9, -1, 0, 0, 7, 9, -1, 0, 0, 8, 9, -1, 0, 0, 8, 8, -1, 0, 0, 7, 8, -1, 0, 0, 6, 8, -1, 0, 0, 14, 9, -1, 0, 0, 15, 9, -1, 0, 0, 16, 9, -1, 0, 0, 17, 9, -1, 0, 0, 17, 8, -1, 0, 0, 16, 8, -1, 0, 0, 15, 8, -1, 0, 0, 14, 8, -1, 0, 0, 10, 4, -1, 0, 0, 10, 5, -1, 0, 0, 11, 5, -1, 0, 0, 12, 5, -1, 0, 0, 12, 4, -1, 0, 0, 11, 4, -1, 0, 0, 20, 4, -1, 0, 0, 19, 4, -1, 0, 0, 3, 4, -1, 0, 0, 4, 4, -1, 0, 0)
 }])
 terrain_defaults = Dictionary[Vector2i, Vector3i]({
 Vector2i(0, 0): Vector3i(0, 0, 0)

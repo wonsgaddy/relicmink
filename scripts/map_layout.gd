@@ -23,8 +23,15 @@ func generate(prefabs: Array[Dictionary], seed_value: int, path_range: Vector2i,
 			_rooms[prefab.role].append(prefab)
 		else:
 			_corridors.append(prefab)
-	if _rooms.start.is_empty() or _rooms.normal.is_empty() or _rooms.goal.is_empty():
+	if _rooms.normal.is_empty():
 		return false
+	for role in ["start", "goal"]:
+		if _rooms[role].is_empty():
+			for prefab in _rooms.normal:
+				if prefab.spawn != Vector2i(-1, -1):
+					_rooms[role].append(prefab)
+			if _rooms[role].is_empty():
+				return false
 
 	var path_size := _rng.randi_range(path_range.x, path_range.y)
 	var branch_count := _rng.randi_range(branch_range.x, branch_range.y)

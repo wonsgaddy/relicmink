@@ -41,6 +41,7 @@ func _compile_catalog() -> Resource:
 	catalog.terrain_defaults = terrain_defaults
 	var ids: Dictionary = {}
 	var roles := {"start": 0, "normal": 0, "goal": 0}
+	var has_normal_spawn := false
 	for filename in DirAccess.get_files_at(SOURCE_DIR):
 		if not filename.ends_with(".json"):
 			continue
@@ -59,11 +60,15 @@ func _compile_catalog() -> Resource:
 		ids[prefab.id] = true
 		if prefab.kind == "room":
 			roles[prefab.role] += 1
+			if prefab.role == "normal" and prefab.spawn != Vector2i(-1, -1):
+				has_normal_spawn = true
 		catalog.prefabs.append(prefab)
-	for role in roles:
-		if roles[role] == 0:
-			problem = "The catalog needs at least one '%s' room." % role
-			return null
+	if roles.normal == 0:
+		problem = "The catalog needs at least one normal room."
+		return null
+	if (roles.start == 0 or roles.goal == 0) and not has_normal_spawn:
+		problem = "Add dedicated start and goal rooms or give a normal room a spawn."
+		return null
 	return catalog
 
 
@@ -138,8 +143,8 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 		problem = "Only rooms can have a start or goal role."
 		return {}
 	var spawn := _pair(data.get("spawn"))
-	if role in ["start", "goal"] and not Rect2i(Vector2i.ZERO, size).has_point(spawn):
-		problem = "Start and goal rooms need a spawn [x, y] within their bounds."
+	if (role in ["start", "goal"] or data.has("spawn")) and not Rect2i(Vector2i.ZERO, size).has_point(spawn):
+		problem = "Set spawn to a valid [x, y] within the prefab. Start and goal rooms require it."
 		return {}
 
 	var terrain := _compile_layer(data.get("terrain", []), size, true)
