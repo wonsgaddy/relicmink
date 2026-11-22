@@ -28,18 +28,21 @@ func _ready() -> void:
 		return
 
 	var map_bounds := Rect2i()
+	var terrain_cells: Dictionary[Vector2i, Vector3i] = {}
 	for placed in layout.placements:
 		var prefab: Dictionary = placed.prefab
 		var origin: Vector2i = placed.origin
 		var bounds := Rect2i(origin, prefab.size)
 		map_bounds = bounds if not map_bounds.has_area() else map_bounds.merge(bounds)
-		_place_tiles(terrain, origin, prefab.terrain, 0)
-		_place_tiles(decoration, origin, prefab.decoration, 1)
+		_collect_tiles(terrain_cells, origin, prefab.terrain)
+		_place_decoration(origin, prefab.decoration)
 		for index in prefab.exits.size():
 			if not placed.joined.has(index):
 				var cap: Dictionary = prefab.exits[index]
-				_place_tiles(terrain, origin, cap.terrain, 0)
-				_place_tiles(decoration, origin, cap.decoration, 1)
+				_collect_tiles(terrain_cells, origin, cap.terrain)
+				_place_decoration(origin, cap.decoration)
+
+	_apply_terrain(terrain_cells)
 
 	var start: Dictionary = layout.placements[0]
 	var goal: Dictionary = layout.placements[layout.goal_index]
@@ -63,11 +66,44 @@ func _physics_process(_delta: float) -> void:
 		status.text = "Goal reached  /  Seed %d" % active_seed
 
 
-func _place_tiles(layer: TileMapLayer, origin: Vector2i, tiles: PackedInt32Array, source: int) -> void:
-	for index in range(0, tiles.size(), 4):
-		var cell := Vector2i(tiles[index], tiles[index + 1])
-		var atlas := Vector2i(tiles[index + 2], tiles[index + 3])
-		layer.set_cell(origin + cell, source, atlas)
+func _collect_tiles(cells: Dictionary[Vector2i, Vector3i], origin: Vector2i, tiles: PackedInt32Array) -> void:
+	for index in range(0, tiles.size(), 5):
+		var cell := origin + Vector2i(tiles[index], tiles[index + 1])
+		cells[cell] = Vector3i(tiles[index + 2], tiles[index + 3], tiles[index + 4])
+
+
+func _place_decoration(origin: Vector2i, tiles: PackedInt32Array) -> void:
+	for index in range(0, tiles.size(), 5):
+		var cell := origin + Vector2i(tiles[index], tiles[index + 1])
+		decoration.set_cell(cell, tiles[index + 2], Vector2i(tiles[index + 3], tiles[index + 4]))
+
+
+func _apply_terrain(cells: Dictionary[Vector2i, Vector3i]) -> void:
+	var groups: Dictionary[Vector2i, Array] = {}
+	for cell in cells:
+		var tile := cells[cell]
+		if tile.x == -1:
+			var key := Vector2i(tile.y, tile.z)
+			if not groups.has(key):
+				var positions: Array[Vector2i] = []
+				groups[key] = positions
+			groups[key].append(cell)
+			tile = CATALOG.terrain_defaults[key]
+		terrain.set_cell(cell, tile.x, Vector2i(tile.y, tile.z))
+
+	# Seed every material first so neighboring terrain groups can see each other.
+	for key in groups:
+		terrain.set_cells_terrain_connect(groups[key], key.x, key.y, false)
+
+	for cell in cells:
+		var tile := cells[cell]
+		if tile.x >= 0:
+			terrain.set_cell(cell, tile.x, Vector2i(tile.y, tile.z))
+			continue
+		var data := terrain.get_cell_tile_data(cell)
+		if data == null or data.terrain_set != tile.y or data.terrain != tile.z:
+			var fallback: Vector3i = CATALOG.terrain_defaults[Vector2i(tile.y, tile.z)]
+			terrain.set_cell(cell, fallback.x, Vector2i(fallback.y, fallback.z))
 
 
 func _mark_goal(at: Vector2) -> void:

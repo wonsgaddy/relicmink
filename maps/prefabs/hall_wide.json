@@ -3,22 +3,22 @@
   "kind": "corridor",
   "size": [7, 6],
   "terrain": [
-    [0, 0, "grass.fill"],
-    [1, 0, "grass.fill"],
-    [2, 0, "grass.fill"],
-    [3, 0, "grass.fill"],
-    [4, 0, "grass.fill"],
-    [5, 0, "grass.fill"],
-    [6, 0, "grass.fill"],
-    [0, 1, "grass.wall_left"],
-    [6, 1, "grass.wall_right"],
-    [0, 5, "grass.floor"],
-    [1, 5, "grass.floor"],
-    [2, 5, "grass.floor"],
-    [3, 5, "grass.floor"],
-    [4, 5, "grass.floor"],
-    [5, 5, "grass.floor"],
-    [6, 5, "grass.floor"]
+    [0, 0, "grass"],
+    [1, 0, "grass"],
+    [2, 0, "grass"],
+    [3, 0, "grass"],
+    [4, 0, "grass"],
+    [5, 0, "grass"],
+    [6, 0, "grass"],
+    [0, 1, "grass"],
+    [6, 1, "grass"],
+    [0, 5, "grass"],
+    [1, 5, "grass"],
+    [2, 5, "grass"],
+    [3, 5, "grass"],
+    [4, 5, "grass"],
+    [5, 5, "grass"],
+    [6, 5, "grass"]
   ],
   "decoration": [
     [3, 4, "grass_deco.tuft"]
@@ -30,9 +30,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [0, 2, "grass.wall_left"],
-          [0, 3, "grass.wall_left"],
-          [0, 4, "grass.wall_left"]
+          [0, 2, "grass"],
+          [0, 3, "grass"],
+          [0, 4, "grass"]
         ]
       }
     },
@@ -42,9 +42,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [6, 2, "grass.wall_right"],
-          [6, 3, "grass.wall_right"],
-          [6, 4, "grass.wall_right"]
+          [6, 2, "grass"],
+          [6, 3, "grass"],
+          [6, 4, "grass"]
         ]
       }
     }

@@ -6,7 +6,8 @@ const SOURCE_DIR := "res://maps/prefabs"
 const OUTPUT := "res://maps/prefabs.tres"
 const SIDES := {"left": Vector2i.LEFT, "right": Vector2i.RIGHT, "up": Vector2i.UP, "down": Vector2i.DOWN}
 
-var palette: Dictionary = {}
+var palette: Dictionary[String, Vector3i] = {}
+var terrain_defaults: Dictionary[Vector2i, Vector3i] = {}
 var problem := ""
 
 
@@ -31,18 +32,13 @@ func _compile_catalog() -> Resource:
 		problem = "maps/tiles.json must contain a JSON object."
 		return null
 	for symbol in raw_palette:
-		var entry: Variant = raw_palette[symbol]
-		if symbol.is_empty() or not entry is Array or entry.size() != 3 or not _is_integer(entry[0]) or not _is_integer(entry[1]) or not _is_integer(entry[2]):
-			problem = "Invalid tile mapping for '%s'. Use a name and [source, atlas_x, atlas_y]." % symbol
+		if symbol.is_empty() or not _compile_symbol(symbol, raw_palette[symbol]):
+			if problem.is_empty():
+				problem = "Give each tile mapping a nonempty name."
 			return null
-		var source_id := int(entry[0])
-		var coords := Vector2i(int(entry[1]), int(entry[2]))
-		if source_id not in [0, 1] or not TILESET.has_source(source_id) or not TILESET.get_source(source_id).has_tile(coords):
-			problem = "Unknown grass or grass_deco tile for '%s'." % symbol
-			return null
-		palette[symbol] = Vector3i(source_id, coords.x, coords.y)
 
 	var catalog := Catalog.new()
+	catalog.terrain_defaults = terrain_defaults
 	var ids: Dictionary = {}
 	var roles := {"start": 0, "normal": 0, "goal": 0}
 	for filename in DirAccess.get_files_at(SOURCE_DIR):
@@ -71,6 +67,65 @@ func _compile_catalog() -> Resource:
 	return catalog
 
 
+func _compile_symbol(symbol: String, entry: Variant) -> bool:
+	if entry is Dictionary and entry.get("terrain") is String:
+		return _compile_terrain_symbol(symbol, entry)
+	if not entry is Array or entry.size() != 3 or not _is_integer(entry[0]) or not _is_integer(entry[1]) or not _is_integer(entry[2]):
+		problem = "Invalid mapping for '%s'. Use an atlas triple or a terrain name." % symbol
+		return false
+	var source_id := int(entry[0])
+	var coords := Vector2i(int(entry[1]), int(entry[2]))
+	var source := TILESET.get_source(source_id) as TileSetAtlasSource if TILESET.has_source(source_id) else null
+	if source == null or not source.has_tile(coords):
+		problem = "Unknown atlas tile for '%s'." % symbol
+		return false
+	palette[symbol] = Vector3i(source_id, coords.x, coords.y)
+	return true
+
+
+func _compile_terrain_symbol(symbol: String, entry: Dictionary) -> bool:
+	var matches: Array[Vector2i] = []
+	var set_count := TILESET.get_terrain_sets_count()
+	var set_filter := -1
+	if entry.has("terrain_set"):
+		if not _is_integer(entry.terrain_set) or entry.terrain_set < 0 or entry.terrain_set >= set_count:
+			problem = "Invalid terrain_set for '%s'." % symbol
+			return false
+		set_filter = int(entry.terrain_set)
+	for set_id in set_count:
+		if set_filter >= 0 and set_id != set_filter:
+			continue
+		for terrain_id in TILESET.get_terrains_count(set_id):
+			if TILESET.get_terrain_name(set_id, terrain_id) == entry.terrain:
+				matches.append(Vector2i(set_id, terrain_id))
+	if matches.size() != 1:
+		problem = "Terrain '%s' for '%s' must match exactly once. Set terrain_set if the name is shared." % [entry.terrain, symbol]
+		return false
+	var terrain := matches[0]
+	if not terrain_defaults.has(terrain):
+		var tile := _find_terrain_tile(terrain)
+		if tile.x == -1:
+			problem = "No atlas tile has terrain '%s'." % entry.terrain
+			return false
+		terrain_defaults[terrain] = tile
+	palette[symbol] = Vector3i(-1, terrain.x, terrain.y)
+	return true
+
+
+func _find_terrain_tile(terrain: Vector2i) -> Vector3i:
+	for index in TILESET.get_source_count():
+		var source_id := TILESET.get_source_id(index)
+		var source := TILESET.get_source(source_id) as TileSetAtlasSource
+		if source == null:
+			continue
+		for tile_index in source.get_tiles_count():
+			var coords := source.get_tile_id(tile_index)
+			var data := source.get_tile_data(coords, 0)
+			if data.terrain_set == terrain.x and data.terrain == terrain.y:
+				return Vector3i(source_id, coords.x, coords.y)
+	return Vector3i(-1, -1, -1)
+
+
 func _compile_prefab(data: Dictionary) -> Dictionary:
 	var id: Variant = data.get("id")
 	var kind: Variant = data.get("kind")
@@ -87,8 +142,8 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 		problem = "Start and goal rooms need a spawn [x, y] within their bounds."
 		return {}
 
-	var terrain := _compile_layer(data.get("terrain", []), size, 0)
-	var decoration := _compile_layer(data.get("decoration", []), size, 1)
+	var terrain := _compile_layer(data.get("terrain", []), size, true)
+	var decoration := _compile_layer(data.get("decoration", []), size, false)
 	if not problem.is_empty():
 		return {}
 	var raw_exits: Variant = data.get("exits")
@@ -120,8 +175,8 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 		if not raw_cap is Dictionary or not raw_cap.get("terrain") is Array or raw_cap.terrain.is_empty():
 			problem = "Each exit needs cap.terrain tiles."
 			return {}
-		var cap_terrain := _compile_layer(raw_cap.terrain, size, 0)
-		var cap_decoration := _compile_layer(raw_cap.get("decoration", []), size, 1)
+		var cap_terrain := _compile_layer(raw_cap.terrain, size, true)
+		var cap_decoration := _compile_layer(raw_cap.get("decoration", []), size, false)
 		if not problem.is_empty():
 			return {}
 		exits.append({"direction": direction, "anchor": anchor, "span": span, "terrain": cap_terrain, "decoration": cap_decoration})
@@ -131,7 +186,7 @@ func _compile_prefab(data: Dictionary) -> Dictionary:
 	return {"id": id, "kind": kind, "role": role, "size": size, "spawn": spawn, "terrain": terrain, "decoration": decoration, "exits": exits}
 
 
-func _compile_layer(entries: Variant, size: Vector2i, source_id: int) -> PackedInt32Array:
+func _compile_layer(entries: Variant, size: Vector2i, allow_auto_terrain: bool) -> PackedInt32Array:
 	var packed := PackedInt32Array()
 	if not entries is Array:
 		problem = "Tile placements must be an array of [x, y, symbol]."
@@ -141,11 +196,14 @@ func _compile_layer(entries: Variant, size: Vector2i, source_id: int) -> PackedI
 			problem = "Expected a tile placement [x, y, symbol]."
 			return packed
 		var cell := Vector2i(int(entry[0]), int(entry[1]))
-		if not Rect2i(Vector2i.ZERO, size).has_point(cell) or not palette.has(entry[2]) or palette[entry[2]].x != source_id:
-			problem = "Tile '%s' at %s is outside the prefab or belongs to the wrong layer." % [entry[2], cell]
+		if not Rect2i(Vector2i.ZERO, size).has_point(cell) or not entry[2] is String or not palette.has(entry[2]):
+			problem = "Tile '%s' at %s is unknown or outside the prefab." % [entry[2], cell]
 			return packed
 		var tile: Vector3i = palette[entry[2]]
-		packed.append_array(PackedInt32Array([cell.x, cell.y, tile.y, tile.z]))
+		if tile.x == -1 and not allow_auto_terrain:
+			problem = "Auto terrain '%s' belongs in terrain, not decoration." % entry[2]
+			return packed
+		packed.append_array(PackedInt32Array([cell.x, cell.y, tile.x, tile.y, tile.z]))
 	return packed
 
 

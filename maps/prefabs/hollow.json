@@ -3,47 +3,47 @@
   "kind": "room",
   "size": [18, 9],
   "terrain": [
-    [0, 0, "grass.fill"],
-    [1, 0, "grass.fill"],
-    [2, 0, "grass.fill"],
-    [3, 0, "grass.fill"],
-    [4, 0, "grass.fill"],
-    [5, 0, "grass.fill"],
-    [6, 0, "grass.fill"],
-    [7, 0, "grass.fill"],
-    [11, 0, "grass.fill"],
-    [12, 0, "grass.fill"],
-    [13, 0, "grass.fill"],
-    [14, 0, "grass.fill"],
-    [15, 0, "grass.fill"],
-    [16, 0, "grass.fill"],
-    [17, 0, "grass.fill"],
-    [0, 1, "grass.wall_left"],
-    [7, 1, "grass.ledge"],
-    [17, 1, "grass.wall_right"],
-    [0, 2, "grass.wall_left"],
-    [17, 2, "grass.wall_right"],
-    [0, 3, "grass.wall_left"],
-    [11, 3, "grass.ledge"],
-    [17, 3, "grass.wall_right"],
-    [0, 4, "grass.wall_left"],
-    [17, 4, "grass.wall_right"],
-    [7, 5, "grass.ledge"],
-    [0, 8, "grass.floor"],
-    [1, 8, "grass.floor"],
-    [2, 8, "grass.floor"],
-    [3, 8, "grass.floor"],
-    [4, 8, "grass.floor"],
-    [5, 8, "grass.floor"],
-    [6, 8, "grass.floor"],
-    [7, 8, "grass.floor"],
-    [11, 8, "grass.floor"],
-    [12, 8, "grass.floor"],
-    [13, 8, "grass.floor"],
-    [14, 8, "grass.floor"],
-    [15, 8, "grass.floor"],
-    [16, 8, "grass.floor"],
-    [17, 8, "grass.floor"]
+    [0, 0, "grass"],
+    [1, 0, "grass"],
+    [2, 0, "grass"],
+    [3, 0, "grass"],
+    [4, 0, "grass"],
+    [5, 0, "grass"],
+    [6, 0, "grass"],
+    [7, 0, "grass"],
+    [11, 0, "grass"],
+    [12, 0, "grass"],
+    [13, 0, "grass"],
+    [14, 0, "grass"],
+    [15, 0, "grass"],
+    [16, 0, "grass"],
+    [17, 0, "grass"],
+    [0, 1, "grass"],
+    [7, 1, "grass"],
+    [17, 1, "grass"],
+    [0, 2, "grass"],
+    [17, 2, "grass"],
+    [0, 3, "grass"],
+    [11, 3, "grass"],
+    [17, 3, "grass"],
+    [0, 4, "grass"],
+    [17, 4, "grass"],
+    [7, 5, "grass"],
+    [0, 8, "grass"],
+    [1, 8, "grass"],
+    [2, 8, "grass"],
+    [3, 8, "grass"],
+    [4, 8, "grass"],
+    [5, 8, "grass"],
+    [6, 8, "grass"],
+    [7, 8, "grass"],
+    [11, 8, "grass"],
+    [12, 8, "grass"],
+    [13, 8, "grass"],
+    [14, 8, "grass"],
+    [15, 8, "grass"],
+    [16, 8, "grass"],
+    [17, 8, "grass"]
   ],
   "decoration": [
     [3, 7, "grass_deco.tuft"],
@@ -56,9 +56,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [0, 5, "grass.wall_left"],
-          [0, 6, "grass.wall_left"],
-          [0, 7, "grass.wall_left"]
+          [0, 5, "grass"],
+          [0, 6, "grass"],
+          [0, 7, "grass"]
         ]
       }
     },
@@ -68,9 +68,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [17, 5, "grass.wall_right"],
-          [17, 6, "grass.wall_right"],
-          [17, 7, "grass.wall_right"]
+          [17, 5, "grass"],
+          [17, 6, "grass"],
+          [17, 7, "grass"]
         ]
       }
     },
@@ -80,9 +80,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [8, 0, "grass.fill"],
-          [9, 0, "grass.fill"],
-          [10, 0, "grass.fill"]
+          [8, 0, "grass"],
+          [9, 0, "grass"],
+          [10, 0, "grass"]
         ]
       }
     },
@@ -92,9 +92,9 @@
       "span": 3,
       "cap": {
         "terrain": [
-          [8, 8, "grass.floor"],
-          [9, 8, "grass.floor"],
-          [10, 8, "grass.floor"]
+          [8, 8, "grass"],
+          [9, 8, "grass"],
+          [10, 8, "grass"]
         ]
       }
     }

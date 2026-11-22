@@ -12,22 +12,22 @@
   "kind": "corridor",
   "size": [4, 5],
   "terrain": [
-    [0, 0, "grass.fill"], [1, 0, "grass.fill"], [2, 0, "grass.fill"], [3, 0, "grass.fill"],
-    [0, 4, "grass.floor"], [1, 4, "grass.floor"], [2, 4, "grass.floor"], [3, 4, "grass.floor"]
+    [0, 0, "grass"], [1, 0, "grass"], [2, 0, "grass"], [3, 0, "grass"],
+    [0, 4, "grass"], [1, 4, "grass"], [2, 4, "grass"], [3, 4, "grass"]
   ],
   "decoration": [[1, 3, "grass_deco.tuft"]],
   "exits": [
     {
       "side": "left", "offset": 1, "span": 3,
       "cap": {
-        "terrain": [[0, 1, "grass.wall_left"], [0, 2, "grass.wall_left"], [0, 3, "grass.wall_left"]],
+        "terrain": [[0, 1, "grass"], [0, 2, "grass"], [0, 3, "grass"]],
         "decoration": [[1, 3, "grass_deco.reeds"]]
       }
     },
     {
       "side": "right", "offset": 1, "span": 3,
       "cap": {
-        "terrain": [[3, 1, "grass.wall_right"], [3, 2, "grass.wall_right"], [3, 3, "grass.wall_right"]]
+        "terrain": [[3, 1, "grass"], [3, 2, "grass"], [3, 3, "grass"]]
       }
     }
   ]
@@ -46,10 +46,20 @@
 
 ## 지형 타일과 장식 타일
 
-`maps/tiles.json`에서 이름을 기존 `dream_tileset.tres`의 `[소스 ID, 아틀라스 X, 아틀라스 Y]`로 연결한다. Godot의 TileSet 편집기에서 아틀라스 좌표를 확인할 수 있다.
+`maps/tiles.json`은 프리팹 JSON에서 사용할 이름을 등록하는 곳이다. 지형 이름과 장식의 아틀라스 좌표를 같은 파일에 둔다.
 
-- **지형**은 소스 `0`(`sprites/grass.png`)의 타일을 `terrain`에 놓는다. 충돌 모양은 기존 TileSet에서 가져온다.
-- **장식**은 소스 `1`(`sprites/grass_deco.png`)의 타일을 `decoration`에 놓는다. 지형과 같은 칸을 사용해도 되고, 장식 레이어에는 충돌이 없다.
+```json
+{
+  "grass": { "terrain": "grass" },
+  "stone": { "terrain": "stone" },
+  "grass_deco.tuft": [1, 0, 0]
+}
+```
+
+- **자동 지형**은 Godot의 `dream_tileset.tres`에 지형을 만들고, 위처럼 실제 지형 이름을 팔레트에 한 번 등록한다. 예제의 `stone`은 TileSet에 해당 지형을 만든 뒤 추가하는 항목이다. 이후 방, 복도, 샤프트, 출입구 마감에서 `[x, y, "stone"]`처럼 사용할 수 있다.
+- 서로 다른 지형 세트에서 이름이 겹치면 `{ "terrain": "stone", "terrain_set": 1 }`처럼 Godot의 0부터 시작하는 세트 번호를 붙인다. 서로 맞닿는 두 재질의 경계 타일이 필요하면 같은 지형 세트에 두고, 두 재질 사이의 조합도 TileSet에 그려 둔다.
+- 생성기는 맵 배치와 출입구 마감이 끝난 뒤 각 지형의 연결 규칙을 적용한다. 방 경계와 빈 칸도 포함해 모서리, 벽, 바닥 타일을 고른다. 규칙에 필요한 조합이 없으면 Godot은 가장 가까운 조합을 사용한다. 자동 지형에 쓰이는 타일의 충돌 모양은 TileSet에서 설정한다.
+- **고정 타일**은 `[소스 ID, 아틀라스 X, 아틀라스 Y]`로 등록한다. 장식은 이 방식으로 배치하며 지형과 같은 칸에 겹쳐도 충돌하지 않는다. 지형 레이어에도 특정 타일을 고정해야 할 때 아틀라스 형식을 사용할 수 있다.
 - 같은 레이어의 같은 칸에 여러 타일을 쓰면 마지막 타일이 적용된다. 마감은 기본 타일 배치 이후에 적용된다.
 
 ## 출입구와 배치
