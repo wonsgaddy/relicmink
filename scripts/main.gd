@@ -5,6 +5,7 @@ const TerrainRules = preload("res://scripts/terrain_rules.gd")
 const Layout = preload("res://scripts/map_layout.gd")
 const CATALOG = preload("res://maps/prefabs.tres")
 const PLAYER_SCENE = preload("res://Player.tscn")
+const CAMERA_RESPONSE := 12.0
 
 @export var generation_seed: int = 0
 @export var main_path_rooms := Vector2i(6, 8)
@@ -25,8 +26,6 @@ var reached_goal := false
 
 var camera: Camera2D
 var room_bounds: Array[Rect2] = []
-var camera_room := -2
-var camera_view_size := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -53,9 +52,9 @@ func _ready() -> void:
 	player.respawn_bounds = Rect2(Vector2(map_bounds.position) * tile_size, Vector2(map_bounds.size) * tile_size).grow(96.0)
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
-	player.add_child(camera)
 	add_child(player)
-	_update_camera()
+	add_child(camera)
+	_update_camera(0.0, true)
 	status.text = "Find the goal  /  Seed %d" % active_seed
 
 
@@ -123,37 +122,32 @@ func _clear_preview() -> void:
 		preview.queue_free()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not Engine.is_editor_hint() and is_instance_valid(player):
-		_update_camera()
+		_update_camera(delta)
 
 
-func _update_camera() -> void:
-	var current_room := -1
-	for index in room_bounds.size():
-		if room_bounds[index].has_point(player.position):
-			current_room = index
-			break
+func _update_camera(delta: float, snap := false) -> void:
+	var target_center := player.position
+	var target_zoom := 1.0
 	var view_size := get_viewport_rect().size
-	if current_room == camera_room and view_size == camera_view_size:
-		return
-	camera_room = current_room
-	camera_view_size = view_size
+	for room in room_bounds:
+		if not room.has_point(player.position):
+			continue
+		target_zoom = maxf(1.0, maxf(view_size.x / room.size.x, view_size.y / room.size.y))
+		var half_view := (view_size / (2.0 * target_zoom)).min(room.size / 2.0)
+		target_center = target_center.clamp(room.position + half_view, room.end - half_view)
+		break
 
-	if current_room == -1:
-		camera.zoom = Vector2.ONE
-		camera.limit_left = -10000000
-		camera.limit_top = -10000000
-		camera.limit_right = 10000000
-		camera.limit_bottom = 10000000
+	var weight := 1.0 - exp(-CAMERA_RESPONSE * delta)
+	if snap or camera.position.distance_squared_to(target_center) < 0.01:
+		camera.position = target_center
 	else:
-		var bounds := room_bounds[current_room]
-		var fit_zoom := maxf(1.0, maxf(view_size.x / bounds.size.x, view_size.y / bounds.size.y))
-		camera.zoom = Vector2.ONE * fit_zoom
-		camera.limit_left = floori(bounds.position.x)
-		camera.limit_top = floori(bounds.position.y)
-		camera.limit_right = ceili(bounds.end.x)
-		camera.limit_bottom = ceili(bounds.end.y)
+		camera.position = camera.position.lerp(target_center, weight)
+	if snap or absf(camera.zoom.x - target_zoom) < 0.0001:
+		camera.zoom = Vector2.ONE * target_zoom
+	else:
+		camera.zoom = Vector2.ONE * lerpf(camera.zoom.x, target_zoom, weight)
 	camera.force_update_scroll()
 
 
