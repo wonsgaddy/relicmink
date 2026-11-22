@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Relic Mink"
-run/main_scene="res://training.tscn"
+run/main_scene="uid://w2xg2giaw5bk"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
