@@ -1,3 +1,4 @@
+@tool
 extends RefCounted
 
 const MAX_ATTEMPTS := 96
