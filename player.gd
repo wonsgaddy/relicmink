@@ -129,9 +129,9 @@ func _try_jump() -> void:
 
 
 func _play_dust(horizontal_speed: float) -> void:
-	var direction := facing if is_zero_approx(horizontal_speed) else signf(horizontal_speed)
-	dust.flip_h = direction < 0.0
-	dust.global_position = global_position + Vector2(direction * DUST_OFFSET, 0.0)
+	var direction := 0.0 if is_zero_approx(horizontal_speed) else signf(horizontal_speed)
+	dust.flip_h = (facing if direction == 0.0 else direction) < 0.0
+	dust.global_position = to_global(Vector2(direction * DUST_OFFSET, 0.0))
 	dust.stop()
 	dust.show()
 	dust.play(&"default")
