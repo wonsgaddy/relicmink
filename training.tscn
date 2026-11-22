@@ -2,6 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://dn33lugqbjlld" path="res://mink.png" id="1_qd67k"]
 
+[ext_resource type="Script" path="res://player.gd" id="2_player"]
+[ext_resource type="Script" path="res://training.gd" id="3_training"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bhfuv"]
 atlas = ExtResource("1_qd67k")
 region = Rect2(52, 208, 52, 52)
@@ -166,9 +169,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xggwa")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Damaged",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -183,9 +186,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o1m8u")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Dash_Init",
-"speed": 10.0
+"speed": 40.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -217,9 +220,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m75q5")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"DoubleJump_Init",
-"speed": 10.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -271,9 +274,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_w8kgf")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Jump_Init",
-"speed": 10.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -282,9 +285,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tn7sj")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Jump_Land",
-"speed": 10.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -351,17 +354,112 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o6f7f")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"default",
-"speed": 10.0
+"speed": 14.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mks8r"]
 size = Vector2(16, 16)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hazard"]
+size = Vector2(32, 10)
+
 [node name="Training" type="Node2D" unique_id=496674547]
+script = ExtResource("3_training")
+
+[node name="ControlBar" type="Polygon2D" parent="."]
+color = Color(0.085, 0.12, 0.19, 1)
+polygon = PackedVector2Array(0, 0, 480, 0, 480, 61, 0, 61)
+
+[node name="Basin" type="Polygon2D" parent="."]
+color = Color(0.045, 0.06, 0.10, 1)
+polygon = PackedVector2Array(0, 241, 480, 241, 480, 270, 0, 270)
+
+[node name="MainFloor" type="StaticBody2D" parent="."]
+position = Vector2(0, 225)
+
+[node name="Collision" type="CollisionPolygon2D" parent="MainFloor"]
+polygon = PackedVector2Array(0, 0, 298, 0, 298, 55, 0, 55)
+
+[node name="Surface" type="Polygon2D" parent="MainFloor"]
+color = Color(0.15, 0.23, 0.34, 1)
+polygon = PackedVector2Array(0, 0, 298, 0, 298, 55, 0, 55)
+
+[node name="Edge" type="Polygon2D" parent="MainFloor"]
+color = Color(0.31, 0.73, 0.72, 1)
+polygon = PackedVector2Array(0, 0, 298, 0, 298, 3, 0, 3)
+
+[node name="FarFloor" type="StaticBody2D" parent="."]
+position = Vector2(354, 225)
+
+[node name="Collision" type="CollisionPolygon2D" parent="FarFloor"]
+polygon = PackedVector2Array(0, 0, 126, 0, 126, 55, 0, 55)
+
+[node name="Surface" type="Polygon2D" parent="FarFloor"]
+color = Color(0.15, 0.23, 0.34, 1)
+polygon = PackedVector2Array(0, 0, 126, 0, 126, 55, 0, 55)
+
+[node name="Edge" type="Polygon2D" parent="FarFloor"]
+color = Color(0.31, 0.73, 0.72, 1)
+polygon = PackedVector2Array(0, 0, 126, 0, 126, 3, 0, 3)
+
+[node name="LowPlatform" type="StaticBody2D" parent="."]
+position = Vector2(128, 194)
+
+[node name="Collision" type="CollisionPolygon2D" parent="LowPlatform"]
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 10, 0, 10)
+
+[node name="Surface" type="Polygon2D" parent="LowPlatform"]
+color = Color(0.15, 0.23, 0.34, 1)
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 10, 0, 10)
+
+[node name="Edge" type="Polygon2D" parent="LowPlatform"]
+color = Color(0.31, 0.73, 0.72, 1)
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 3, 0, 3)
+
+[node name="MidPlatform" type="StaticBody2D" parent="."]
+position = Vector2(207, 160)
+
+[node name="Collision" type="CollisionPolygon2D" parent="MidPlatform"]
+polygon = PackedVector2Array(0, 0, 68, 0, 68, 10, 0, 10)
+
+[node name="Surface" type="Polygon2D" parent="MidPlatform"]
+color = Color(0.15, 0.23, 0.34, 1)
+polygon = PackedVector2Array(0, 0, 68, 0, 68, 10, 0, 10)
+
+[node name="Edge" type="Polygon2D" parent="MidPlatform"]
+color = Color(0.31, 0.73, 0.72, 1)
+polygon = PackedVector2Array(0, 0, 68, 0, 68, 3, 0, 3)
+
+[node name="HighPlatform" type="StaticBody2D" parent="."]
+position = Vector2(283, 126)
+
+[node name="Collision" type="CollisionPolygon2D" parent="HighPlatform"]
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 10, 0, 10)
+
+[node name="Surface" type="Polygon2D" parent="HighPlatform"]
+color = Color(0.15, 0.23, 0.34, 1)
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 10, 0, 10)
+
+[node name="Edge" type="Polygon2D" parent="HighPlatform"]
+color = Color(0.31, 0.73, 0.72, 1)
+polygon = PackedVector2Array(0, 0, 66, 0, 66, 3, 0, 3)
+
+[node name="Hazard" type="Area2D" parent="."]
+position = Vector2(423, 220)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazard"]
+shape = SubResource("RectangleShape2D_hazard")
+
+[node name="Spikes" type="Polygon2D" parent="Hazard"]
+color = Color(1, 0.42, 0.42, 1)
+polygon = PackedVector2Array(-16, 5, -12, -5, -8, 3, -4, -5, 0, 3, 4, -5, 8, 3, 12, -5, 16, 5)
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=676901827]
+position = Vector2(46, 216)
+script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=2063487584]
 texture_filter = 1
@@ -369,11 +467,49 @@ sprite_frames = SubResource("SpriteFrames_mks8r")
 animation = &"Idle"
 
 [node name="Dust" type="AnimatedSprite2D" parent="Player" unique_id=1247657716]
+visible = false
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_mxlqr")
-frame = 1
-frame_progress = 0.37663832
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=615861845]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_mks8r")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 7.0
+theme_override_colors/font_color = Color(0.84, 0.97, 0.96, 1)
+theme_override_font_sizes/font_size = 18
+text = "Relic Mink / Training"
+
+[node name="Controls" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 34.0
+theme_override_colors/font_color = Color(0.72, 0.80, 0.89, 1)
+theme_override_font_sizes/font_size = 13
+text = "A / D or arrows: Move   Space: Jump / Double jump   X: Dash   H: Hit"
+
+[node name="SpawnMarker" type="Label" parent="HUD"]
+offset_left = 24.0
+offset_top = 232.0
+theme_override_colors/font_color = Color(0.62, 0.76, 0.82, 1)
+theme_override_font_sizes/font_size = 11
+text = "START"
+
+[node name="PitMarker" type="Label" parent="HUD"]
+offset_left = 316.0
+offset_top = 248.0
+theme_override_colors/font_color = Color(0.62, 0.76, 0.82, 1)
+theme_override_font_sizes/font_size = 11
+text = "PIT"
+
+[node name="HazardMarker" type="Label" parent="HUD"]
+offset_left = 399.0
+offset_top = 232.0
+theme_override_colors/font_color = Color(1, 0.62, 0.62, 1)
+theme_override_font_sizes/font_size = 11
+text = "HIT TEST"
+
+[connection signal="body_entered" from="Hazard" to="." method="_on_hazard_body_entered"]
