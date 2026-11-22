@@ -4,6 +4,9 @@ extends Node2D
 const CELL_SIZE := 16
 const LAST_FRAME := 3
 const PROXIMITY := 40.0
+const SHAKE_PIXELS := 1.25
+const SHAKE_HZ := 22.0
+const SHAKE_TAIL_SECONDS := 0.12
 const HIDDEN_FRAME := Vector2i(-1, -1)
 
 const V_SINGLE: Array[Vector2i] = [Vector2i(0, 0), Vector2i(3, 0), Vector2i(6, 0), Vector2i(9, 0)]
@@ -29,6 +32,9 @@ var _axis := Vector2i.DOWN
 var _atlas: Texture2D
 var _player: Node2D
 var _shape: CollisionShape2D
+var _visuals: Node2D
+var _shake_phase := 0.0
+var _shake_tail_left := 0.0
 var _pieces: Array[Sprite2D] = []
 var _coordinates: Array[Array] = []
 
@@ -39,6 +45,8 @@ func configure(axis: Vector2i, length: int, atlas: Texture2D, seconds_per_frame:
 	_player = tracked_player
 	_seconds_per_frame = seconds_per_frame
 	footprint = Rect2(Vector2.ZERO, Vector2(Vector2i.ONE + _axis * (length - 1)) * CELL_SIZE)
+	_visuals = Node2D.new()
+	add_child(_visuals)
 	_build_pieces(length)
 	if not preview:
 		var body := StaticBody2D.new()
@@ -64,18 +72,38 @@ func set_open(value: bool) -> void:
 func _physics_process(delta: float) -> void:
 	if is_instance_valid(_player):
 		set_open(footprint.grow(PROXIMITY).has_point(to_local(_player.global_position)))
-	if frame == _target_frame:
+	var moving := frame != _target_frame
+	if moving:
+		_elapsed += delta
+		if _elapsed >= _seconds_per_frame:
+			_elapsed -= _seconds_per_frame
+			frame += 1 if _target_frame > frame else -1
+			_draw_frame()
+			if frame == 0 or frame == LAST_FRAME:
+				_shape.set_deferred("disabled", frame == LAST_FRAME)
+	else:
 		_elapsed = 0.0
+
+	_update_shake(delta, moving)
+
+
+func _update_shake(delta: float, moving: bool) -> void:
+	if moving:
+		_shake_tail_left = SHAKE_TAIL_SECONDS
+	elif _shake_tail_left > 0.0:
+		_shake_tail_left = maxf(0.0, _shake_tail_left - delta)
+	else:
 		return
 
-	_elapsed += delta
-	if _elapsed < _seconds_per_frame:
+	if _shake_tail_left == 0.0:
+		_visuals.position = Vector2.ZERO
+		_shake_phase = 0.0
 		return
-	_elapsed -= _seconds_per_frame
-	frame += 1 if _target_frame > frame else -1
-	_draw_frame()
-	if frame == 0 or frame == LAST_FRAME:
-		_shape.set_deferred("disabled", frame == LAST_FRAME)
+
+	_shake_phase = fposmod(_shake_phase + delta * TAU * SHAKE_HZ, TAU)
+	var strength := SHAKE_PIXELS * (_shake_tail_left / SHAKE_TAIL_SECONDS)
+	var normal := Vector2(_axis.y, _axis.x)
+	_visuals.position = normal * (sin(_shake_phase) * strength)
 
 
 func _build_pieces(length: int) -> void:
@@ -110,7 +138,7 @@ func _add_piece(offset: int, length: int, coordinates: Array[Vector2i]) -> void:
 	piece.region_filter_clip_enabled = true
 	piece.position = Vector2(_axis * offset) * CELL_SIZE
 	piece.region_rect = Rect2(Vector2.ZERO, Vector2(Vector2i.ONE + _axis * (length - 1)) * CELL_SIZE)
-	add_child(piece)
+	_visuals.add_child(piece)
 	_pieces.append(piece)
 	_coordinates.append(coordinates)
 
