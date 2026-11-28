@@ -6,7 +6,8 @@ const DOOR_ATLAS = preload("res://sprites/door.png")
 const TerrainRules = preload("res://scripts/terrain_rules.gd")
 const Layout = preload("res://scripts/map_layout.gd")
 const CATALOG = preload("res://maps/prefabs.tres")
-const PLAYER_SCENE = preload("res://Player.tscn")
+const PLAYER_SCENE = preload("res://scenes/Player.tscn")
+const PixelCamera = preload("res://scripts/pixel_camera.gd")
 const CAMERA_RESPONSE := 12.0
 
 @export var generation_seed: int = 0
@@ -28,6 +29,7 @@ var goal_bounds: Rect2
 var reached_goal := false
 
 var camera: Camera2D
+var camera_center := Vector2.ZERO
 var room_bounds: Array[Rect2] = []
 
 
@@ -53,7 +55,7 @@ func _ready() -> void:
 	player = PLAYER_SCENE.instantiate()
 	player.position = terrain.map_to_local(start.origin + start.prefab.spawn) - Vector2(0, 2)
 	player.respawn_bounds = Rect2(Vector2(map_bounds.position) * tile_size, Vector2(map_bounds.size) * tile_size).grow(96.0)
-	camera = Camera2D.new()
+	camera = PixelCamera.new()
 	camera.name = "Camera2D"
 	add_child(player)
 	_place_doors(layout, self, terrain, player)
@@ -148,25 +150,23 @@ func _process(delta: float) -> void:
 
 func _update_camera(delta: float, snap := false) -> void:
 	var target_center := player.position
-	var target_zoom := 1.0
+	var target_zoom := 2.0
 	var view_size := get_viewport_rect().size
 	for room in room_bounds:
 		if not room.has_point(player.position):
 			continue
-		target_zoom = maxf(1.0, maxf(view_size.x / room.size.x, view_size.y / room.size.y))
+		target_zoom = ceilf(maxf(2.0, maxf(view_size.x / room.size.x, view_size.y / room.size.y)))
 		var half_view := (view_size / (2.0 * target_zoom)).min(room.size / 2.0)
 		target_center = target_center.clamp(room.position + half_view, room.end - half_view)
 		break
 
 	var weight := 1.0 - exp(-CAMERA_RESPONSE * delta)
-	if snap or camera.position.distance_squared_to(target_center) < 0.01:
-		camera.position = target_center
+	if snap or camera_center.distance_squared_to(target_center) < 0.01:
+		camera_center = target_center
 	else:
-		camera.position = camera.position.lerp(target_center, weight)
-	if snap or absf(camera.zoom.x - target_zoom) < 0.0001:
-		camera.zoom = Vector2.ONE * target_zoom
-	else:
-		camera.zoom = Vector2.ONE * lerpf(camera.zoom.x, target_zoom, weight)
+		camera_center = camera_center.lerp(target_center, weight)
+	camera.zoom = Vector2.ONE * target_zoom
+	camera.position = PixelCamera.snap_point(camera_center, camera.zoom)
 	camera.force_update_scroll()
 
 

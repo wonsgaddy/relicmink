@@ -1,20 +1,32 @@
 extends CharacterBody2D
 
-const RUN_SPEED := 64.0
-const JUMP_SPEED := 245.0
-const SHORT_JUMP_SPEED := 125.0
-const DOUBLE_JUMP_SPEED := 285.0
+const RUN_SPEED := 210.0
+const JUMP_SPEED := 540.0
+const SHORT_JUMP_SPEED := 240.0
+const DOUBLE_JUMP_SPEED := 560.0
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
 const DUST_OFFSET := 6.0
-const GRAVITY := 850.0
-const MAX_FALL_SPEED := 480.0
-const DASH_SPEED := 130.0
-const DASH_DURATION := 0.20
-const HIT_SPEED := 155.0
-const HIT_LIFT := 185.0
+const GRAVITY := 1150.0
+const MAX_FALL_SPEED := 720.0
+const DASH_SPEED := 560.0
+const DASH_DURATION := 0.28
+const HIT_SPEED := 260.0
+const HIT_LIFT := 300.0
+const DashTrail := preload("res://scripts/dash_trail.gd")
 
 @export var respawn_bounds := Rect2(-40, -10000, 560, 10320)
+@export_group("Movement")
+@export var run_speed := RUN_SPEED
+@export var jump_speed := JUMP_SPEED
+@export var short_jump_speed := SHORT_JUMP_SPEED
+@export var double_jump_speed := DOUBLE_JUMP_SPEED
+@export var gravity := GRAVITY
+@export var max_fall_speed := MAX_FALL_SPEED
+@export var dash_speed := DASH_SPEED
+@export var dash_duration := DASH_DURATION
+@export var hit_speed := HIT_SPEED
+@export var hit_lift := HIT_LIFT
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var dust: AnimatedSprite2D = $Dust
@@ -29,12 +41,15 @@ var double_jump_used := false
 var variable_jump_active := false
 var hurt := false
 var move_input := 0.0
+var dash_trail: Node2D
 
 
 func _ready() -> void:
 	sprite.animation_finished.connect(_on_animation_finished)
 	dust.animation_finished.connect(dust.hide)
 	sprite.play(&"Idle")
+	dash_trail = DashTrail.new()
+	add_child(dash_trail)
 
 
 func _physics_process(delta: float) -> void:
@@ -66,7 +81,7 @@ func _physics_process(delta: float) -> void:
 		if not is_zero_approx(move_input):
 			facing = signf(move_input)
 			sprite.flip_h = facing < 0.0
-		velocity.x = move_input * RUN_SPEED
+		velocity.x = move_input * run_speed
 		_apply_gravity(delta)
 
 		if Input.is_action_just_pressed(&"dash") and not air_dash_used:
@@ -78,10 +93,12 @@ func _physics_process(delta: float) -> void:
 		if velocity.y >= 0.0:
 			variable_jump_active = false
 		elif not Input.is_action_pressed(&"jump"):
-			velocity.y = maxf(velocity.y, -SHORT_JUMP_SPEED)
+			velocity.y = maxf(velocity.y, -short_jump_speed)
 			variable_jump_active = false
 
 	move_and_slide()
+	if dash_time > 0.0:
+		dash_trail.emit_frame(sprite, delta)
 	if was_on_floor and not is_on_floor() and dash_time > 0.0:
 		air_dash_used = true
 	if not respawn_bounds.has_point(position):
@@ -109,26 +126,29 @@ func take_hit(direction: float) -> void:
 	if hurt:
 		return
 	hurt = true
+	GameAudio.play(&"hurt")
 	variable_jump_active = false
 	coyote_time_left = 0.0
 	dash_time = 0.0
 	facing = -direction
 	sprite.flip_h = facing < 0.0
-	velocity = Vector2(direction * HIT_SPEED, -HIT_LIFT)
+	velocity = Vector2(direction * hit_speed, -hit_lift)
 	sprite.play(&"Damaged")
 
 
 func _apply_gravity(delta: float) -> void:
 	if not is_on_floor():
-		velocity.y = minf(velocity.y + GRAVITY * delta, MAX_FALL_SPEED)
+		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
 
 
 func _start_dash() -> void:
+	GameAudio.play(&"dash")
 	variable_jump_active = false
 	air_dash_used = not is_on_floor()
-	dash_time = DASH_DURATION
-	velocity = Vector2(facing * DASH_SPEED, 0.0)
+	dash_time = dash_duration
+	velocity = Vector2(facing * dash_speed, 0.0)
 	sprite.play(&"Dash_Init")
+	dash_trail.emit_frame(sprite, 0.0, true)
 
 
 func _try_jump() -> void:
@@ -138,17 +158,17 @@ func _try_jump() -> void:
 
 	if dash_time > 0.0:
 		dash_time = 0.0
-		velocity.x = move_input * RUN_SPEED
+		velocity.x = move_input * run_speed
 	jump_buffer_left = 0.0
 	variable_jump_active = ground_jump
 	if ground_jump:
 		coyote_time_left = 0.0
-		velocity.y = -JUMP_SPEED
+		velocity.y = -jump_speed
 		sprite.play(&"Jump_Init")
 		_play_dust(velocity.x)
 	else:
 		double_jump_used = true
-		velocity.y = -DOUBLE_JUMP_SPEED
+		velocity.y = -double_jump_speed
 		sprite.play(&"DoubleJump_Init")
 
 
@@ -190,6 +210,7 @@ func _on_animation_finished() -> void:
 
 
 func _respawn() -> void:
+	dash_trail.clear()
 	position = spawn_position
 	reset_physics_interpolation()
 	velocity = Vector2.ZERO
